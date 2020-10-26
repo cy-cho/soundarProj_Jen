@@ -124,16 +124,16 @@ router.post("/list", async (req, res) => {
   const category = req.body.category;
   const tags = req.body.tags;
 
-  const s_sql = `AND (article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%')`;
   const c_sql = `AND (article_category = '${category}')`;
-  const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
+    const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
+    const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
   const order = `ORDER BY sid DESC`;
   let sql = `SELECT * FROM article WHERE 1 `;
     let results = null;
     
-    (search) ? sql += s_sql : sql;
     (tags) ? sql += ta_sql : sql;
     (category) ? sql += c_sql : sql;
+    (search) ? sql += s_sql : sql;
     sql += order;
     // if (search) {
     //     sql += s_sql;
@@ -146,7 +146,7 @@ router.post("/list", async (req, res) => {
     //     sql = sql + order;
         console.log(sql);
         [results] = await db.query(sql,[req.body.category]);
-    //}
+    // }
 
 
   // if (search) {
