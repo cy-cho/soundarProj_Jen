@@ -21,23 +21,7 @@ async function getListData(req) {
     pages: [],
   };
 
-  // search/ category/ tags/ all
-  // const search = null;
-  // const category = ['', '官方公告', '活動訊息', 'Podcast相關', '每週頻道推薦'];
-  // const tags = ['', '新聞', '商業', '科技', '教育', '故事', '運動', '娛樂'];
-
-  //   let search = req.query.search;
-  //   let category = req.query.category;
-  //   let tags = req.query.tags;
-
   const t_sql = "SELECT COUNT(1) totalRows FROM article";
-  //   if (search) {
-  //     t_sql = `SELECT * FROM article WHERE (article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%') ORDER BY sid DESC`;
-  //   } else if (category) {
-  //     t_sql = `SELECT COUNT(1) totalRows FROM article WHERE (article_category LIKE '%${category}%') ORDER BY sid DESC`;
-  //   } else if (tags) {
-  //     t_sql = `SELECT COUNT(1) totalRows FROM article WHERE (article_tags LIKE '%${tags}%') ORDER BY sid DESC`;
-  //   }
 
   //first-deal with rows/pages
   const [[{ totalRows }]] = await db.query(t_sql);
@@ -82,15 +66,6 @@ async function getListData(req) {
       (output.page - 1) * output.perPage
     },${output.perPage}`;
 
-    // if (search) {
-    //   sql = `SELECT * FROM article WHERE (article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%') ORDER BY sid DESC`;
-    // } else if (category) {
-    //   sql = `SELECT * FROM article WHERE (article_category LIKE '%${category}%') ORDER BY sid DESC`;
-    // } else if (tags) {
-    //   sql = `SELECT * FROM article WHERE (article_tags LIKE '%${tags}%') ORDER BY sid DESC`;
-    // } else {
-    // }
-
     const [rows] = await db.query(sql);
     // console.log(rArticle);
     // rArticle.forEach((element) => {
@@ -125,29 +100,18 @@ router.post("/list", async (req, res) => {
   const tags = req.body.tags;
 
   const c_sql = `AND (article_category = '${category}')`;
-    const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
-    const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
+  const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
+  const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
   const order = `ORDER BY sid DESC`;
   let sql = `SELECT * FROM article WHERE 1 `;
-    let results = null;
-    
-    (tags) ? sql += ta_sql : sql;
-    (category) ? sql += c_sql : sql;
-    (search) ? sql += s_sql : sql;
-    sql += order;
-    // if (search) {
-    //     sql += s_sql;
-    //     if (tags) {
-    //         sql += ta_sql;
-    //         if (category) {
-    //             sql += c_sql;
-    //         }
-    //     }
-    //     sql = sql + order;
-        console.log(sql);
-        [results] = await db.query(sql,[req.body.category]);
-    // }
+  let results = null;
 
+  tags ? (sql += ta_sql) : sql;
+  category ? (sql += c_sql) : sql;
+  search ? (sql += s_sql) : sql;
+  sql += order;
+  // console.log(sql);
+  [results] = await db.query(sql, [req.body.category]);
 
   // if (search) {
   //   let sql = `SELECT * FROM article WHERE (article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%') ORDER BY sid DESC`;
@@ -164,6 +128,25 @@ router.post("/list", async (req, res) => {
 
   res.json(results);
 });
+
+//article list latest
+router.get("/latest", async (req, res) => {
+  const output = await getListData(req);
+  res.json(await getListData(req));
+});
+
+//article list popular
+router.get("/popular", async (req, res) => {
+  const sql = "SELECT * FROM article ORDER BY article_clicks DESC";
+  const [results] = await db.query(sql);
+
+  res.json(results);
+});
+
+//article add(C)
+// router.get('/add', (req, res) => {
+
+// })
 
 router.post("/add", upload_module.none(), async (req, res) => {
   const data = { ...req.body };
