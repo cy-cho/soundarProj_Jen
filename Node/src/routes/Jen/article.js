@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 async function getListData(req) {
   const output = {
     page: 0,
-    perPage: 10,
+    perPage: 5,
     totalRows: 0,
     totalPages: 0,
     rows: [],
@@ -95,12 +95,11 @@ async function getListData(req) {
 
     const [rows] = await db.query(sql);
 
-    // rows.forEach((element) => {
-    //   element.article_created_at = moment(element.article_created_at)
-    //     .format("YYYY-MM-DD")
-    //     .slice(10);
-    // });
-    // console.log(rows.article_created_at);
+    rows.forEach((element) => {
+      element.article_created_at = moment(element.article_created_at)
+        .format("YYYY-MM-DD");
+    });
+
     output.rows = rows;
   }
   return output;
