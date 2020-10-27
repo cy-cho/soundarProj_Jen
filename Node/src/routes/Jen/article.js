@@ -67,30 +67,20 @@ async function getListData(req) {
     },${output.perPage}`;
 
     const [rows] = await db.query(sql);
-    // console.log(rArticle);
-    // rArticle.forEach((element) => {
-    //     moment(element.article_created_at).format('YYYY-MM-DD');
-    // });
+    
+    rows.forEach((element) => {
+        element.article_created_at = moment(element.article_created_at).format('YYYY-MM-DD').slice(10);
+    });
+    console.log(rows.article_created_at);
     output.rows = rows;
   }
   return output;
 }
 
-router.get("/api", async (req, res) => {
-  res.json(await getListData(req));
-});
-
 //article list(R)
 router.get("/list", async (req, res) => {
   const output = await getListData(req);
   res.json(await getListData(req));
-});
-
-//article detail(R)
-router.get("/list/:sid", async (req, res) => {
-  const sql = "SELECT * FROM article WHERE sid=?";
-  const [results] = await db.query(sql, [req.params.sid]);
-  res.json(results[0]);
 });
 
 //article list (search/cate/tag)
@@ -129,6 +119,15 @@ router.post("/list", async (req, res) => {
   res.json(results);
 });
 
+//article detail(R)
+router.get("/list/:sid?", async (req, res) => {
+  const sql = "SELECT * FROM article WHERE sid=?";
+  const [results] = await db.query(sql, [req.params.sid]);
+  res.json(results[0]);
+});
+
+
+
 //article list latest
 router.get("/latest", async (req, res) => {
   const output = await getListData(req);
@@ -136,7 +135,7 @@ router.get("/latest", async (req, res) => {
 });
 
 //article list popular
-router.get("/popular", async (req, res) => {
+router.get("/list/popular", async (req, res) => {
   const sql = "SELECT * FROM article ORDER BY article_clicks DESC";
   const [results] = await db.query(sql);
 
