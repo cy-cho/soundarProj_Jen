@@ -21,11 +21,24 @@ async function getListData(req) {
     pages: [],
   };
 
-  const t_sql = "SELECT COUNT(1) totalRows FROM article";
-
+  // all/search/category/tags->totalrows
   //first-deal with rows/pages
-  const [[{ totalRows }]] = await db.query(t_sql);
+  const search = req.body.search;
+  const category = req.body.category;
+  const tags = req.body.tags;
+  const order = req.body.order;
+  let t_sql = `SELECT COUNT(1) totalRows FROM article WHERE 1 `;
+  const c_sql = `AND (article_category = '${category}')`;
+  const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
+  const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
 
+  tags ? (t_sql += ta_sql) : t_sql;
+  category ? (t_sql += c_sql) : t_sql;
+  search ? (t_sql += s_sql) : t_sql;
+  // console.log(t_sql);
+  
+  const [[{ totalRows }]] = await db.query(t_sql);
+  if (totalRows === 0) output.totalRows = totalRows;
   if (totalRows > 0) {
     let page = parseInt(req.query.page) || 1;
     output.totalRows = totalRows;
@@ -41,7 +54,7 @@ async function getListData(req) {
 
     //pagination(show 5 pages)
     if (output.totalPages < 5) {
-      for (let i = 0; i < totalPages.length; i++) {
+      for (let i = 0; i < output.totalPages.length; i++) {
         output.pages.push(i);
       }
     } else {
@@ -60,18 +73,34 @@ async function getListData(req) {
       }
     }
 
+    // all/search/category/tags->allrows
     //second-deal with dataRows
-
-    let sql = `SELECT * FROM article ORDER BY sid DESC LIMIT ${
+    let sql = `SELECT * FROM article WHERE 1 `;
+    let sql_order = ` ORDER BY sid DESC LIMIT ${
       (output.page - 1) * output.perPage
-    },${output.perPage}`;
+      },${output.perPage}`;
+    let sql_order_p = ` ORDER BY article_clicks DESC LIMIT ${
+      (output.page - 1) * output.perPage
+      },${output.perPage}`;
+
+    if (order) {
+      //latest or popular
+      (order === '最新專欄') ? sql += sql_order : sql += sql_order_p;
+    } else {
+    tags ? (sql += ta_sql) : sql;
+    category ? (sql += c_sql) : sql;
+    search ? (sql += s_sql) : sql;
+    sql += sql_order;
+    }
 
     const [rows] = await db.query(sql);
-    
-    rows.forEach((element) => {
-        element.article_created_at = moment(element.article_created_at).format('YYYY-MM-DD').slice(10);
-    });
-    console.log(rows.article_created_at);
+
+    // rows.forEach((element) => {
+    //   element.article_created_at = moment(element.article_created_at)
+    //     .format("YYYY-MM-DD")
+    //     .slice(10);
+    // });
+    // console.log(rows.article_created_at);
     output.rows = rows;
   }
   return output;
@@ -84,40 +113,27 @@ router.get("/list", async (req, res) => {
 });
 
 //article list (search/cate/tag)
-router.post("/list", async (req, res) => {
-  const search = req.body.search;
-  const category = req.body.category;
-  const tags = req.body.tags;
+// router.post("/list", async (req, res) => {
+//   const search = req.body.search;
+//   const category = req.body.category;
+//   const tags = req.body.tags;
 
-  const c_sql = `AND (article_category = '${category}')`;
-  const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
-  const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
-  const order = `ORDER BY sid DESC`;
-  let sql = `SELECT * FROM article WHERE 1 `;
-  let results = null;
+//   const c_sql = `AND (article_category = '${category}')`;
+//   const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
+//   const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
+//   const order = `ORDER BY sid DESC`;
+//   let sql = `SELECT * FROM article WHERE 1 `;
+//   let results = null;
 
-  tags ? (sql += ta_sql) : sql;
-  category ? (sql += c_sql) : sql;
-  search ? (sql += s_sql) : sql;
-  sql += order;
-  // console.log(sql);
-  [results] = await db.query(sql, [req.body.category]);
+//   tags ? (sql += ta_sql) : sql;
+//   category ? (sql += c_sql) : sql;
+//   search ? (sql += s_sql) : sql;
+//   sql += order;
+//   // console.log(sql);
+//   [results] = await db.query(sql, [req.body.category]);
 
-  // if (search) {
-  //   let sql = `SELECT * FROM article WHERE (article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%') ORDER BY sid DESC`;
-  //     [results] = await db.query(sql);
-  // }
-  // if (category) {
-  //     let sql = `SELECT * FROM article WHERE article_category = ? ORDER BY sid DESC`;
-  //     [results] = await db.query(sql, [category]);
-  // }
-  // if (tags) {
-  //     let c_sql = `SELECT * FROM article WHERE article_tags LIKE '%${tags}%' ORDER BY sid DESC`;
-  //     [results] = await db.query(sql);
-  // }
-
-  res.json(results);
-});
+//   res.json(results);
+// });
 
 //article detail(R)
 router.get("/list/:sid?", async (req, res) => {
@@ -126,21 +142,19 @@ router.get("/list/:sid?", async (req, res) => {
   res.json(results[0]);
 });
 
-
-
 //article list latest
-router.get("/latest", async (req, res) => {
-  const output = await getListData(req);
-  res.json(await getListData(req));
-});
+// router.get("/latest", async (req, res) => {
+//   const output = await getListData(req);
+//   res.json(await getListData(req));
+// });
 
 //article list popular
-router.get("/list/popular", async (req, res) => {
-  const sql = "SELECT * FROM article ORDER BY article_clicks DESC";
-  const [results] = await db.query(sql);
+// router.get("/list/popular", async (req, res) => {
+//   const sql = "SELECT * FROM article ORDER BY article_clicks DESC";
+//   const [results] = await db.query(sql);
 
-  res.json(results);
-});
+//   res.json(results);
+//});
 
 //article add(C)
 // router.get('/add', (req, res) => {
