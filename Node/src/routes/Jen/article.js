@@ -141,25 +141,6 @@ router.get("/list/:sid?", async (req, res) => {
   res.json(results[0]);
 });
 
-//article list latest
-// router.get("/latest", async (req, res) => {
-//   const output = await getListData(req);
-//   res.json(await getListData(req));
-// });
-
-//article list popular
-// router.get("/list/popular", async (req, res) => {
-//   const sql = "SELECT * FROM article ORDER BY article_clicks DESC";
-//   const [results] = await db.query(sql);
-
-//   res.json(results);
-//});
-
-//article add(C)
-// router.get('/add', (req, res) => {
-
-// })
-
 router.post("/add", upload_module.none(), async (req, res) => {
   const data = { ...req.body };
   const sql = `INSERT INTO \`article\` set ?`;
@@ -169,7 +150,7 @@ router.post("/add", upload_module.none(), async (req, res) => {
     //success:aff->1,fail:aff->0
     success: !!affectedRows,
     affectedRows,
-    inserId,
+    insertId,
   });
 });
 
