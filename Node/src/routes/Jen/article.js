@@ -3,12 +3,13 @@ const db = require(__dirname + "/../../db_connect2");
 const moment = require("moment-timezone");
 const jwt = require("jsonwebtoken");
 const upload_module = require(__dirname + "/../../upload_module");
+const app = express();
 const router = express.Router();
 
 //article
-router.get("/", (req, res) => {
-  res.redirect("/article/list");
-});
+// router.get("/", (req, res) => {
+//   res.redirect("/article/list");
+// });
 
 //article api
 async function getListData(req) {
@@ -27,17 +28,17 @@ async function getListData(req) {
   const category = req.body.category;
   const tags = req.body.tags;
   const order = req.body.order;
-  let t_sql = `SELECT COUNT(1) totalRows FROM article WHERE 1 `;
-  const c_sql = `AND (article_category = '${category}')`;
-  const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
-  const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
+  let total_totalRows = `SELECT COUNT(1) totalRows FROM article WHERE 1 `;
+  const category_set = `AND (article_category = '${category}')`;
+  const tags_set = `AND (article_tags LIKE '%${tags}%')`;
+  const search_set = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
 
-  tags ? (t_sql += ta_sql) : t_sql;
-  category ? (t_sql += c_sql) : t_sql;
-  search ? (t_sql += s_sql) : t_sql;
-  // console.log(t_sql);
+  tags ? (total_totalRows += tags_set) : total_totalRows;
+  category ? (total_totalRows += category_set) : total_totalRows;
+  search ? (total_totalRows += search_set) : total_totalRows;
+  // console.log(total_totalRows);
   
-  const [[{ totalRows }]] = await db.query(t_sql);
+  const [[{ totalRows }]] = await db.query(total_totalRows);
   if (totalRows === 0) output.totalRows = totalRows;
   if (totalRows > 0) {
     let page = parseInt(req.query.page) || 1;
@@ -76,21 +77,21 @@ async function getListData(req) {
     // all/search/category/tags->allrows
     //second-deal with dataRows
     let sql = `SELECT * FROM article WHERE 1 `;
-    let sql_order = ` ORDER BY sid DESC LIMIT ${
+    const sql_order_default = ` ORDER BY sid DESC LIMIT ${
       (output.page - 1) * output.perPage
       },${output.perPage}`;
-    let sql_order_p = ` ORDER BY article_clicks DESC LIMIT ${
+    const sql_order_popular = ` ORDER BY article_clicks DESC LIMIT ${
       (output.page - 1) * output.perPage
       },${output.perPage}`;
 
     if (order) {
-      //latest or popular
-      (order === '最新專欄') ? sql += sql_order : sql += sql_order_p;
+      //latest(default) or popular
+      (order === '熱門專欄') ? sql += sql_order_popular : sql += sql_order_default;
     } else {
-    tags ? (sql += ta_sql) : sql;
-    category ? (sql += c_sql) : sql;
-    search ? (sql += s_sql) : sql;
-    sql += sql_order;
+    tags ? (sql += tags_set) : sql;
+    category ? (sql += category_set) : sql;
+    search ? (sql += search_set) : sql;
+    sql += sql_order_default;
     }
 
     const [rows] = await db.query(sql);
@@ -106,7 +107,7 @@ async function getListData(req) {
 }
 
 //article list(R)
-router.get("/list", async (req, res) => {
+router.get("/", async (req, res) => {
   const output = await getListData(req);
   res.json(await getListData(req));
 });
@@ -186,5 +187,7 @@ router.delete("/delete/:sid", async (req, res) => {
 
   res.json(results);
 });
+
+// app.use('/comment', require(__dirname + '/article_comment'));
 
 module.exports = router;
