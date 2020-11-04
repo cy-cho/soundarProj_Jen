@@ -50,10 +50,10 @@
 
 .icon-search {
   position: absolute;
-  top:.5rem;
+  top:.75rem;
   left:1rem;
   z-index:2;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .article-search-btn {
@@ -102,7 +102,7 @@ margin-left:2.913rem;
 }
 
 .icon {
-  width: 1.5rem;
+  font-size: 1.5rem;
   color:#F8F8F8;
 }
 // .news-border {
@@ -180,6 +180,7 @@ margin-left:2.913rem;
   display:-webkit-box;
   -webkit-line-clamp:3;
   -webkit-box-orient:vertical;
+  text-align:justify;
 }
 
 .card-cates {

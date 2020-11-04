@@ -47,7 +47,7 @@ function ArticleCarousel(props) {
       </div> */}
 
       <Carousel prevIcon={false} nextIcon={false} >
-        <Carousel.Item interval={5000} fade={true} slide={true}>
+        <Carousel.Item interval={2000} fade={true} slide={true}>
           <div className="carousel-img">
           <img
             className="d-block"
@@ -58,7 +58,7 @@ function ArticleCarousel(props) {
             <h3>Podcast新手入門：為什麼要聽、用什麼聽，以及有哪些好節目</h3>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item interval={5000} fade={true} slide={true}>
+        <Carousel.Item interval={2000} fade={true} slide={true}>
            <div className="carousel-img">
           <img
             className="d-block"

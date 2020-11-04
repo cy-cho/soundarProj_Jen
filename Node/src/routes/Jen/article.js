@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken");
 const upload_module = require(__dirname + "/../../upload_module");
 const app = express();
 const router = express.Router();
-const cors = require('cors');
+const cors = require("cors");
 
-
+//未設置會導致react fetch失敗
 app.use(cors());
 //article
 // router.get("/", (req, res) => {
@@ -40,7 +40,7 @@ async function getListData(req) {
   category ? (total_totalRows += category_set) : total_totalRows;
   search ? (total_totalRows += search_set) : total_totalRows;
   // console.log(total_totalRows);
-  
+
   const [[{ totalRows }]] = await db.query(total_totalRows);
   if (totalRows === 0) output.totalRows = totalRows;
   if (totalRows > 0) {
@@ -82,26 +82,22 @@ async function getListData(req) {
     let sql = `SELECT * FROM article WHERE 1 `;
     const sql_order_default = ` ORDER BY sid DESC LIMIT ${
       (output.page - 1) * output.perPage
-      },${output.perPage}`;
+    },${output.perPage}`;
     const sql_order_popular = ` ORDER BY article_clicks DESC LIMIT ${
       (output.page - 1) * output.perPage
-      },${output.perPage}`;
+    },${output.perPage}`;
 
-    if (sort) {
-      //latest(default) or popular
-      (sort === '熱門專欄') ? sql += sql_order_popular : sql += sql_order_default;
-    } else {
     tags ? (sql += tags_set) : sql;
     category ? (sql += category_set) : sql;
     search ? (sql += search_set) : sql;
-    sql += sql_order_default;
-    }
+    sort ? (sql += sql_order_popular) : (sql += sql_order_default); //預設按發表排序為未設置排序(false)
 
     const [rows] = await db.query(sql);
 
     rows.forEach((element) => {
-      element.article_created_at = moment(element.article_created_at)
-        .format("YYYY-MM-DD");
+      element.article_created_at = moment(element.article_created_at).format(
+        "YYYY-MM-DD"
+      );
     });
 
     output.rows = rows;
@@ -112,33 +108,15 @@ async function getListData(req) {
 //article list(R)
 router.get("/", async (req, res) => {
   const output = await getListData(req);
-  res.json(output.rows);
+  res.json(output.rows); //為了只取到rows陣列json
   // res.json(await getListData(req));
-  
 });
 
-//article list (search/cate/tag)
-// router.post("/list", async (req, res) => {
-//   const search = req.body.search;
-//   const category = req.body.category;
-//   const tags = req.body.tags;
-
-//   const c_sql = `AND (article_category = '${category}')`;
-//   const ta_sql = `AND (article_tags LIKE '%${tags}%')`;
-//   const s_sql = `AND ((article_title LIKE '%${search}%') OR (article_content LIKE '%${search}%'))`;
-//   const order = `ORDER BY sid DESC`;
-//   let sql = `SELECT * FROM article WHERE 1 `;
-//   let results = null;
-
-//   tags ? (sql += ta_sql) : sql;
-//   category ? (sql += c_sql) : sql;
-//   search ? (sql += s_sql) : sql;
-//   sql += order;
-//   // console.log(sql);
-//   [results] = await db.query(sql, [req.body.category]);
-
-//   res.json(results);
-// });
+//article totalRows(R)
+router.get("/totalrows", async (req, res) => {
+  const output = await getListData(req);
+  res.json(output); //為了得到totalRows,page等資料
+});
 
 //article detail(R)
 router.get("/:sid?", async (req, res) => {
