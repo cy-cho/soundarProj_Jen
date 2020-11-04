@@ -13,7 +13,7 @@ import { getArticleList, getArticleListAsync } from '../actions/index'
 
 function ArticleHome(props) {
   console.log(props)
-  const ar=[]
+
   //componentDidMount
   useEffect(() => {
     async function initialData() {
@@ -53,6 +53,7 @@ function ArticleHome(props) {
           </div>
         </div>
         <div className="row">
+          {/* 將每個row使用map至各個card中 */}
           {props.articleData.map((item) => {
             return (
               <div
@@ -61,10 +62,11 @@ function ArticleHome(props) {
               >
                 <div className="card-date text-center align-items-center">
                   <h4>
-                    {/* article_created_at is string,not datetime */}
-                    {item.article_created_at.slice(8)}
+                    {/* 該時間為字串,非dateTime需先變成dateTime格式才使用getDate() */}
+                    {new Date(item.article_created_at).getDate()}
                     <br />
-                     {item.article_created_at.slice(5,7)}
+                    {/* 先變換時間格式,再取得月份 */}
+                     {new Date(item.article_created_at).toDateString().slice(4,8)}
                   </h4>
                 </div>
                 <div className="card-img">
@@ -81,19 +83,14 @@ function ArticleHome(props) {
                   </p>
                   <div className="d-flex">
                     <span className="card-cates">{item.article_category}</span>
-
-                    {[item.article_tags].push(item.article_tags.split(','))}
-                      {item.article_tags.map((tag, index) => {
+                    {/* tags原為字串,需變成陣列才map至各個span中 */}
+                      {(item.article_tags.split(',')).map((tag, index) => {
                       return (
                     <span key={index}>
-                      
                           <TagsBtn btnText={tag} />
-                         
-                          
                         </span>
                       )
                     })}
-
                     <span className="card-cates text-right ml-auto">
                       繼續閱讀
                     </span>
