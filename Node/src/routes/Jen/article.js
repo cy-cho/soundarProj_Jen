@@ -5,7 +5,10 @@ const jwt = require("jsonwebtoken");
 const upload_module = require(__dirname + "/../../upload_module");
 const app = express();
 const router = express.Router();
+const cors = require('cors');
 
+
+app.use(cors());
 //article
 // router.get("/", (req, res) => {
 //   res.redirect("/article/list");
@@ -24,10 +27,10 @@ async function getListData(req) {
 
   // all/search/category/tags->totalrows
   //first-deal with rows/pages
-  const search = req.body.search;
-  const category = req.body.category;
-  const tags = req.body.tags;
-  const order = req.body.order;
+  const search = req.query.search;
+  const category = req.query.category;
+  const tags = req.query.tags;
+  const sort = req.query.sort;
   let total_totalRows = `SELECT COUNT(1) totalRows FROM article WHERE 1 `;
   const category_set = `AND (article_category = '${category}')`;
   const tags_set = `AND (article_tags LIKE '%${tags}%')`;
@@ -84,9 +87,9 @@ async function getListData(req) {
       (output.page - 1) * output.perPage
       },${output.perPage}`;
 
-    if (order) {
+    if (sort) {
       //latest(default) or popular
-      (order === '熱門專欄') ? sql += sql_order_popular : sql += sql_order_default;
+      (sort === '熱門專欄') ? sql += sql_order_popular : sql += sql_order_default;
     } else {
     tags ? (sql += tags_set) : sql;
     category ? (sql += category_set) : sql;
@@ -109,7 +112,9 @@ async function getListData(req) {
 //article list(R)
 router.get("/", async (req, res) => {
   const output = await getListData(req);
-  res.json(await getListData(req));
+  res.json(output.rows);
+  // res.json(await getListData(req));
+  
 });
 
 //article list (search/cate/tag)
@@ -136,12 +141,14 @@ router.get("/", async (req, res) => {
 // });
 
 //article detail(R)
-router.get("/list/:sid?", async (req, res) => {
+router.get("/:sid?", async (req, res) => {
   const sql = "SELECT * FROM article WHERE sid=?";
   const [results] = await db.query(sql, [req.params.sid]);
-  res.json(results[0]);
+  // res.json(results[0]);
+  res.send(results);
 });
 
+//article add(C)
 router.post("/add", upload_module.none(), async (req, res) => {
   const data = { ...req.body };
   const sql = `INSERT INTO \`article\` set ?`;
@@ -188,6 +195,6 @@ router.delete("/delete/:sid", async (req, res) => {
   res.json(results);
 });
 
-// app.use('/comment', require(__dirname + '/article_comment'));
+// app.use('/:sid/comment', require(__dirname + '/article_comment'));
 
 module.exports = router;

@@ -1,0 +1,104 @@
+//color
+$primary: #2690DF;
+$secondary: #44494A;
+$success: #73E1B4;
+$info: #F8F8F8;
+$danger: #FC774C;
+$light:#909393;
+$dark:#232D2F;
+$news:#b9e3ff;
+
+
+$blue:    #326bef; //story
+$purple:  #846def; //sport
+$pink:    #f780ae; //education
+$orange:  #f7aa99; //entainment
+$yellow:  #fadb28; //bussiness
+$green:   #b9e3ff; //news
+$teal:    #84e5bd; //technology
+
+//grid
+// $grid-columns:12 !default;
+$grid-gutter-width:2rem;
+// $grid-row-columns:6 !default;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1440px
+) !default;
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1360px
+) !default;
+
+//input btn
+// $input-btn-padding-y:.25rem;
+// $input-btn-padding-x:1.5rem;
+// $input-btn-font-size:1rem;
+
+// $input-btn-padding-y-lg:.5rem;
+// $input-btn-padding-x-lg:1.975rem;
+// $input-btn-font-size-lg:1.25rem;
+
+// $btn-border-radius:25px;
+// $btn-border-radius-lg:38px;
+
+//header
+$font-size-base:1rem !default;
+$h1-font-size:$font-size-base * 4;
+$h2-font-size:$font-size-base * 3;
+$h3-font-size:$font-size-base * 2.5;
+$h4-font-size:$font-size-base * 2;
+$h5-font-size:$font-size-base * 1.5;
+// $h6-font-size:$font-size-base !default;
+
+// Pagination
+
+$pagination-padding-y:              .5rem !default;
+$pagination-padding-x:              .75rem !default;
+$pagination-padding-y-sm:           .25rem !default;
+$pagination-padding-x-sm:           .5rem !default;
+$pagination-padding-y-lg:           .75rem !default;
+$pagination-padding-x-lg:           1.5rem !default;
+$pagination-line-height:            1.25 !default;
+
+$pagination-color:                  $info;
+$pagination-bg:                     $secondary;
+$pagination-border-width:           1px !default;
+$pagination-border-color:           $info !default;
+
+// $pagination-focus-box-shadow:       $input-btn-focus-box-shadow !default;
+// $pagination-focus-outline:          0 !default;
+
+$pagination-hover-color:            $primary;
+// $pagination-hover-bg:               $gray-200 !default;
+// $pagination-hover-border-color:     $gray-300 !default;
+
+$pagination-active-color:           $info;
+$pagination-active-bg:              $primary;
+$pagination-active-border-color:    $info;
+
+// $pagination-disabled-color:         $gray-600 !default;
+// $pagination-disabled-bg:            $white !default;
+// $pagination-disabled-border-color:  $gray-300 !default;
+
+$body-bg:$dark;
+$body-color:$info;
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+@import './styles/articleHome.scss';
+@import './styles/articlePage.scss';
+// GooglgeFonts
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
+// 其它要導入覆蓋掉原本的預設bootstrap樣式要放在這下面
