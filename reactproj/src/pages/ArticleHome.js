@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { FaTags, FaHotjar, FaCaretRight} from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+//icons
+import { FaTags, FaHotjar, FaCaretRight } from 'react-icons/fa'
+import { GrEdit } from "react-icons/gr";
 import { MdAutorenew } from 'react-icons/md'
-
+//components
 import ArticleCarousel from './../compoments/ArticleCarousel'
-import Breadcrumb from './../compoments/Breadcrumb'
 import Searchbar from './../compoments/Searchbar'
-import CategoryBtn from './../compoments/CategoryBtn'
 import Pagination from './../compoments/Pagination'
-
+//actions
 import { getArticleList, getArticleListAsync } from '../actions/index'
 
 
 function ArticleHome(props) {
-  console.log(props)
+  // console.log(props)
 
   const [page, setPage] = useState(1)
   const [category, setCategory] = useState('')
@@ -38,44 +39,27 @@ function ArticleHome(props) {
     <>
       <ArticleCarousel />
       <div className="container mx-auto">
-        <Breadcrumb />
+         <nav aria-label="breadcrumb">
+       <ol className="breadcrumb">
+           <li className="breadcrumb-item active">
+                <Link to={'/'}><GrEdit className="icon mx-1" />專欄首頁</Link>
+          </li>
+        </ol>
+      </nav> 
         <div className="article-cate-row d-flex ">
           <Searchbar search={search} setSearch={setSearch}/>
           <div>
-            <CategoryBtn
-              category="全部分類"
-              clickMethod={() => {
-                setCategory('')
-              }}
-            />
-            <CategoryBtn
-              category="官方公告"
-              clickMethod={() => {
-                setCategory('官方公告')
-              }}
-            />
-            <CategoryBtn
-              category="活動訊息"
-              clickMethod={() => {
-                setCategory('活動訊息')
-              }}
-            />
-            <CategoryBtn
-              category="Podcast相關"
-              clickMethod={() => {
-                setCategory('Podcast相關')
-              }}
-            />
-            <CategoryBtn
-              category="每週頻道推薦"
-              clickMethod={() => {
-                setCategory('每週頻道推薦')
-              }}
-            />
+          {/* category btn series */}
+         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('')}>全部分類</button>
+         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('官方公告')}>官方公告</button>
+         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('活動訊息')}>活動訊息</button>
+         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('Podcast相關')}>Podcast相關</button>
+         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('每週頻道推薦')}>每週頻道推薦</button>
           </div>
         </div>
         <div className="article-tags-row d-flex justify-content-between">
           <div>
+            {/* tags btn series */}
             <FaTags className="icon" />
             <button
               type="button"
@@ -156,14 +140,8 @@ function ArticleHome(props) {
             >
               運動
             </button>
-            {/* <TagsBtn tag="新聞" />
-            <TagsBtn tag="商業" />
-            <TagsBtn tag="科技" />
-            <TagsBtn tag="教育" />
-            <TagsBtn tag="故事" />
-            <TagsBtn tag="娛樂" />
-            <TagsBtn tag="運動" /> */}
           </div>{' '}
+          {/* sort btn series */}
           <div>
             <span
               className=""
@@ -191,9 +169,9 @@ function ArticleHome(props) {
             return (
               <div
                 key={item.sid}
-                className="card d-flex flex-row align-items-center"
+                className="article-card d-flex flex-row align-items-center"
               >
-                <div className="card-date text-center align-items-center">
+                <div className="article-card-date text-center align-items-center">
                   <h4>
                     {/* 該時間為字串,非dateTime需先變成dateTime格式才使用getDate() */}
                     {new Date(item.article_created_at).getDate()}
@@ -204,21 +182,22 @@ function ArticleHome(props) {
                       .slice(4, 8)}
                   </h4>
                 </div>
-                <div className="card-img">
+                <div className="article-card-img">
                   <img
                     // src="http://localhost:3000/img/article02.jpg"
                     src={item.article_img_url}
                     alt="..."
                   />
                 </div>
-                <div className="card-body">
-                  <h5 className="card-title">
+                <div className="article-card-body card-body">
+                  <h5 className="article-card-title">
                   <FaCaretRight className="icon" />{item.article_title}</h5>
-                  <p className="card-content  text-wrap">
+                  <p className="article-card-content  text-wrap">
                     {item.article_content}
                   </p>
                   <div className="d-flex">
-                    <span className="card-cates">{item.article_category}</span>
+                    <span className="article-card-cates" onClick={()=>{setCategory(`${item.article_category}`)}}>
+                      {item.article_category}</span>
                     {/* tags原為字串,需變成陣列才map至各個span中 */}
                     {item.article_tags.split(',').map((tag, index) => {
                       return (
@@ -226,18 +205,18 @@ function ArticleHome(props) {
                           <button
                             type="button"
                             className="btn article-tags-btn text-info"
-                            onClick={() => {
-                              setTags(`${tag}`)
-                            }}
+                            // onClick={() => {
+                            //   setTags(`${tag}`)
+                            // }}
                           >
                             {tag}
                           </button>
-                          {/* <TagsBtn tag={tag} /> */}
                         </span>
                       )
                     })}
-                    <span className="card-cates text-right ml-auto">
-                      繼續閱讀
+                    <span className="article-card-cates text-right ml-auto">
+                      <Link to={'/ArticlePage/' + item.sid} style={{'color':'#F8F8F8'}} setTags={setTags}>
+                      繼續閱讀</Link>
                     </span>
                   </div>
                 </div>
@@ -261,4 +240,3 @@ export default withRouter(
     getArticleListAsync,
   })(ArticleHome)
 )
-// export default ArticleHome

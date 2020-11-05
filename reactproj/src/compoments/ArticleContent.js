@@ -5,6 +5,10 @@ import TagsBtn from './TagsBtn'
 function ArticleContent(props) {
   return (
     <>
+      {/* {props.articleDetailData.map((item, index) => {
+      return (
+         */}
+     
       <div className="d-flex">
         <div className="article-page-date">
           1<br />
@@ -46,7 +50,9 @@ function ArticleContent(props) {
             <span>
               <TagsBtn btnText="商業" />
             </span>
-          </div>
+            </div>
+             {/* )
+    })} */}
           <div className="article-page-others d-flex justify-content-between">
             <div className="article-page-previous">
               <span>上一篇：</span>

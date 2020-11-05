@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import ArticleHome from './pages/ArticleHome'
 import ArticlePage from './pages/ArticlePage'
 
-function App() {
+function App(props) {
   return (
     <Router>
       <>
@@ -16,7 +16,7 @@ function App() {
           <Route exact path="/">
             <ArticleHome />
           </Route>
-          <Route path="/articlepage">
+          <Route path="/articlepage/:sid">
             <ArticlePage />
           </Route>
           </Switch>

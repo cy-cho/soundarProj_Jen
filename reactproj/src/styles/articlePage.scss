@@ -6,7 +6,7 @@
 }
 
 .article-content-wrap {
-
+  width: 63.25rem;
 }
 
 .article-title {
@@ -37,6 +37,7 @@
   color:#F8F8F8;
   line-height: 2.5rem;
   margin-bottom: 4rem;
+  text-align:justify;
 }
 
 .article-page-category {
@@ -47,7 +48,6 @@
 .article-page-category .span-font {
   font-size: 1.5rem;
   font-weight: bold;
-  // line-height: 1.5;
 }
 
 .article-page-others {
