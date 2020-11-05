@@ -1,6 +1,14 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 
 function Pagination(props) {
+
+  // useEffect(() => {
+  // props.articleListTotalRowsAsync(page,category, tags, sort, search)
+  // }, [])
+  
+  // useEffect(() => {
+  //   props.articleListTotalRowsAsync(page,category,tags,sort,search)
+  // },[])
   return (
     <>
       <nav aria-label="Page navigation example">

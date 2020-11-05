@@ -4,18 +4,20 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 //icons
 import { FaTags, FaHotjar, FaCaretRight } from 'react-icons/fa'
-import { GrEdit } from "react-icons/gr";
+import { GrEdit } from 'react-icons/gr'
 import { MdAutorenew } from 'react-icons/md'
 //components
 import ArticleCarousel from './../compoments/ArticleCarousel'
 import Searchbar from './../compoments/Searchbar'
-import Pagination from './../compoments/Pagination'
+// import Pagination from './../compoments/Pagination'
 //actions
-import { getArticleList, getArticleListAsync } from '../actions/index'
-
+import {
+  getArticleList,
+  getArticleListAsync,
+} from '../actions/index'
 
 function ArticleHome(props) {
-  // console.log(props)
+  console.log(props)
 
   const [page, setPage] = useState(1)
   const [category, setCategory] = useState('')
@@ -39,22 +41,50 @@ function ArticleHome(props) {
     <>
       <ArticleCarousel />
       <div className="container mx-auto">
-         <nav aria-label="breadcrumb">
-       <ol className="breadcrumb">
-           <li className="breadcrumb-item active">
-                <Link to={'/'}><GrEdit className="icon mx-1" />專欄首頁</Link>
-          </li>
-        </ol>
-      </nav> 
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">
+              <Link to={'/'}>
+                <GrEdit className="icon mx-1" />
+                專欄首頁
+              </Link>
+            </li>
+          </ol>
+        </nav>
         <div className="article-cate-row d-flex ">
-          <Searchbar search={search} setSearch={setSearch}/>
+          <Searchbar search={search} setSearch={setSearch} />
           <div>
-          {/* category btn series */}
-         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('')}>全部分類</button>
-         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('官方公告')}>官方公告</button>
-         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('活動訊息')}>活動訊息</button>
-         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('Podcast相關')}>Podcast相關</button>
-         <button className="btn article-cate-btn text-info" onClick={()=>setCategory('每週頻道推薦')}>每週頻道推薦</button>
+            {/* category btn series */}
+            <button
+              className="btn article-cate-btn text-info"
+              onClick={() => setCategory('')}
+            >
+              全部分類
+            </button>
+            <button
+              className="btn article-cate-btn text-info"
+              onClick={() => setCategory('官方公告')}
+            >
+              官方公告
+            </button>
+            <button
+              className="btn article-cate-btn text-info"
+              onClick={() => setCategory('活動訊息')}
+            >
+              活動訊息
+            </button>
+            <button
+              className="btn article-cate-btn text-info"
+              onClick={() => setCategory('Podcast相關')}
+            >
+              Podcast相關
+            </button>
+            <button
+              className="btn article-cate-btn text-info"
+              onClick={() => setCategory('每週頻道推薦')}
+            >
+              每週頻道推薦
+            </button>
           </div>
         </div>
         <div className="article-tags-row d-flex justify-content-between">
@@ -73,7 +103,7 @@ function ArticleHome(props) {
             <button
               type="button"
               className="btn article-tags-btn text-info"
-              style={{'border':'solid 1px #b9e3ff'}}
+              style={{ border: 'solid 1px #b9e3ff' }}
               onClick={() => {
                 setTags('新聞')
               }}
@@ -83,7 +113,7 @@ function ArticleHome(props) {
             <button
               type="button"
               className="btn article-tags-btn text-info"
-              style={{'border':'solid 1px #fadb28'}}
+              style={{ border: 'solid 1px #fadb28' }}
               onClick={() => {
                 setTags('商業')
               }}
@@ -93,7 +123,7 @@ function ArticleHome(props) {
             <button
               type="button"
               className="btn article-tags-btn text-info"
-              style={{'border':'solid 1px #84e5bd'}}
+              style={{ border: 'solid 1px #84e5bd' }}
               onClick={() => {
                 setTags('科技')
               }}
@@ -103,7 +133,7 @@ function ArticleHome(props) {
             <button
               type="button"
               className="btn article-tags-btn text-info"
-              style={{'border':'solid 1px #f780ae'}}
+              style={{ border: 'solid 1px #f780ae' }}
               onClick={() => {
                 setTags('教育')
               }}
@@ -113,7 +143,7 @@ function ArticleHome(props) {
             <button
               type="button"
               className="btn article-tags-btn text-info"
-              style={{'border':'solid 1px #846def'}}
+              style={{ border: 'solid 1px #846def' }}
               onClick={() => {
                 setTags('故事')
               }}
@@ -123,7 +153,7 @@ function ArticleHome(props) {
             <button
               type="button"
               className="btn article-tags-btn text-info"
-              style={{'border':'solid 1px #f7aa99'}}
+              style={{ border: 'solid 1px #f7aa99' }}
               onClick={() => {
                 setTags('娛樂')
               }}
@@ -133,7 +163,7 @@ function ArticleHome(props) {
             <button
               type="button"
               className="btn article-tags-btn text-info"
-              style={{'border':'solid 1px #f8f8f8'}}
+              style={{ border: 'solid 1px #f8f8f8' }}
               onClick={() => {
                 setTags('運動')
               }}
@@ -191,13 +221,21 @@ function ArticleHome(props) {
                 </div>
                 <div className="article-card-body card-body">
                   <h5 className="article-card-title">
-                  <FaCaretRight className="icon" />{item.article_title}</h5>
+                    <FaCaretRight className="icon" />
+                    {item.article_title}
+                  </h5>
                   <p className="article-card-content  text-wrap">
                     {item.article_content}
                   </p>
                   <div className="d-flex">
-                    <span className="article-card-cates" onClick={()=>{setCategory(`${item.article_category}`)}}>
-                      {item.article_category}</span>
+                    <span
+                      className="article-card-cates"
+                      onClick={() => {
+                        setCategory(`${item.article_category}`)
+                      }}
+                    >
+                      {item.article_category}
+                    </span>
                     {/* tags原為字串,需變成陣列才map至各個span中 */}
                     {item.article_tags.split(',').map((tag, index) => {
                       return (
@@ -205,9 +243,9 @@ function ArticleHome(props) {
                           <button
                             type="button"
                             className="btn article-tags-btn text-info"
-                            // onClick={() => {
-                            //   setTags(`${tag}`)
-                            // }}
+                            onClick={() => {
+                              setTags(`${tag}`)
+                            }}
                           >
                             {tag}
                           </button>
@@ -215,8 +253,13 @@ function ArticleHome(props) {
                       )
                     })}
                     <span className="article-card-cates text-right ml-auto">
-                      <Link to={'/ArticlePage/' + item.sid} style={{'color':'#F8F8F8'}} setTags={setTags}>
-                      繼續閱讀</Link>
+                      <Link
+                        to={'/ArticlePage/' + item.sid}
+                        style={{ color: '#F8F8F8' }}
+                        setTags={setTags}
+                      >
+                        繼續閱讀
+                      </Link>
                     </span>
                   </div>
                 </div>
@@ -224,7 +267,32 @@ function ArticleHome(props) {
             )
           })}
         </div>
-        <Pagination page={page} setPage={setPage}/>
+        {/* <Pagination page={page} setPage={setPage}/> */}
+         {/* {props.articleListData.map((item, index) => {
+          return ( */}
+             <nav aria-label="Page navigation example">
+          <ul className="pagination d-flex justify-content-center">
+            <li className="page-item">
+              <a className="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+
+            <li className="page-item">
+              <a className="page-link" href="#">
+                1
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+          {/* )
+        })} */}
+        
       </div>
     </>
   )
@@ -232,7 +300,9 @@ function ArticleHome(props) {
 
 //取得redux中store的值
 const mapStateToProps = (store) => {
-  return { articleData: store.articleList }
+  return {
+    articleData: store.articleList,
+  }
 }
 export default withRouter(
   connect(mapStateToProps, {

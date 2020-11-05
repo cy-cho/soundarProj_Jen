@@ -1,4 +1,4 @@
-import { GET_ARTICLE_DETAIL, GET_ARTICLE_LIST} from './actionTypes'
+import { GET_ARTICLE_DETAIL, GET_ARTICLE_LIST,GET_ARTICLE_LIST_TOTALROWS} from './actionTypes'
 
 //aciotn creator-get list
 export const getArticleList = (payload) => {
@@ -28,6 +28,7 @@ export const getArticleListAsync = (page,category, tags, sort, search) => {
         const response = await fetch(request)
         const data = await response.json()
         dispatch(getArticleList(data))
+        console.log('data',data)
         
     }
 }

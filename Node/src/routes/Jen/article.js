@@ -113,7 +113,7 @@ router.get("/", async (req, res) => {
 });
 
 //article totalRows(R)
-router.get("/totalrows", async (req, res) => {
+router.get("/totalrows/", async (req, res) => {
   const output = await getListData(req);
   res.json(output); //為了得到totalRows,page等資料
 });
