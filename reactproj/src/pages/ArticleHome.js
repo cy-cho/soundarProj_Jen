@@ -21,9 +21,9 @@ function ArticleHome(props) {
   const [search, setSearch] = useState('')
   // const [active, setActive] = useState(false)
 
-  console.log('props',props)
-  console.log('props.articleData',props.articleData)
-  console.log('props.articlePages',props.articlePages)
+  // console.log('props',props)
+  // console.log('props.articleData',props.articleRows)
+  // console.log('props.articlePages',props.articlePages)
   //componentDidMount
   useEffect(() => {
     props.getArticleListAsync(page, category, tags, sort, search)
@@ -275,12 +275,13 @@ function ArticleHome(props) {
               </a>
             </li>
             {props.articlePages.map((item, index) => {
+              if(item>=1)
               return (
                 <li
                   className="page-item"
                   onClick={(event) => {
-                    event.preventDefault()
-                    setPage({ item })
+                    event.preventDefault();
+                    setPage(`${item}`)
                   }}
                 >
                   <a className="page-link" href="#">
