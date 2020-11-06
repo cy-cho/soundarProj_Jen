@@ -57,7 +57,9 @@ async function getListData(req) {
     }
 
     //pagination(show 5 pages)
-    if (output.totalPages < 5) {
+    (function(page, totalPages, prevNum){
+       let pages = [];
+    if (output.totalPages < prevNum*2+1) {
       for (let i = 0; i < output.totalPages.length; i++) {
         output.pages.push(i);
       }
@@ -67,15 +69,18 @@ async function getListData(req) {
       //add pages from front,(output-2 means adding 2 pages before page)
       for (let i = output.page - 2; i < output.totalPages; i++) {
         if (i >= 1) frontPages.push(i); //only push page>=1
-        if (frontPages.length >= 5) break;
+        if (frontPages.length >= prevNum*2+1) break;
       }
 
       //add pages from back,(output+2 means adding 2 pages after page)
       for (let i = output.page + 2; i < output.totalPages; i--) {
         if (i <= output.totalPages) backPages.unshift(i); //only push page under totalpages
-        if (backPages.length >= 5) break;
+        if (backPages.length >= prevNum*2+1) break;
       }
-    }
+       pages = frontPages.length > backPages.length ? frontPages : backPages;
+            }
+            output.pages = pages;
+        })(page, output.totalPages, 2);
 
     // all/search/category/tags->allrows
     //second-deal with dataRows
@@ -108,7 +113,10 @@ async function getListData(req) {
 //article list(R)
 router.get("/", async (req, res) => {
   const output = await getListData(req);
-  res.json(output.rows); //為了只取到rows陣列json
+  const rows = output.rows;
+  const pages = output.pages;
+  // res.json([output.rows,output.pages]); 
+  res.json([rows,pages]); //為了只取到rows陣列json
   // res.json(await getListData(req));
 });
 

@@ -1,7 +1,7 @@
 import { GET_ARTICLE_DETAIL } from './../actions/actionTypes'
 
 //get article data(必為陣列，後續需要map，後續需要map代入各個row)
-export default function getArticleDetail(state = [
+export default function getArticleDetail(state = {
     // sid: '',
     // article_create_at: '',
     // article_title: '',
@@ -10,7 +10,7 @@ export default function getArticleDetail(state = [
     // article_tags: [],
     // article_content: '',
     // article_clicks:'',
-], action) {
+}, action) {
     switch (action.type) {
         case GET_ARTICLE_DETAIL:
             return action.payload

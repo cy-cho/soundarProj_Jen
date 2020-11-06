@@ -2,7 +2,7 @@ import { GET_ARTICLE_DETAIL, GET_ARTICLE_LIST,GET_ARTICLE_LIST_TOTALROWS} from '
 
 //aciotn creator-get list
 export const getArticleList = (payload) => {
-    return {type:GET_ARTICLE_LIST,payload:payload}
+    return { type: GET_ARTICLE_LIST, payload: payload}
 }
 
 export const getArticleListAsync = (page,category, tags, sort, search) => {
@@ -28,7 +28,6 @@ export const getArticleListAsync = (page,category, tags, sort, search) => {
         const response = await fetch(request)
         const data = await response.json()
         dispatch(getArticleList(data))
-        console.log('data',data)
         
     }
 }
@@ -54,7 +53,9 @@ export const getArticleDetailAsync = (sid) => {
 
         const response = await fetch(request)
         const data = await response.json()
-        dispatch(getArticleDetail(data))
+        //API傳送過來的資料為Array(需先得到第0筆的物件)
+        dispatch(getArticleDetail(data[0]))
+       
         
     }
 }

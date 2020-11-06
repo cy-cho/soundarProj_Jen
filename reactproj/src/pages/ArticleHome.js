@@ -9,16 +9,11 @@ import { MdAutorenew } from 'react-icons/md'
 //components
 import ArticleCarousel from './../compoments/ArticleCarousel'
 import Searchbar from './../compoments/Searchbar'
-// import Pagination from './../compoments/Pagination'
+// import ScrollToTop from './../compoments/ScrollToTop'
 //actions
-import {
-  getArticleList,
-  getArticleListAsync,
-} from '../actions/index'
+import { getArticleList, getArticleListAsync } from '../actions/index'
 
 function ArticleHome(props) {
-  console.log(props)
-
   const [page, setPage] = useState(1)
   const [category, setCategory] = useState('')
   const [tags, setTags] = useState('')
@@ -26,6 +21,9 @@ function ArticleHome(props) {
   const [search, setSearch] = useState('')
   // const [active, setActive] = useState(false)
 
+  console.log('props',props)
+  console.log('props.articleData',props.articleData)
+  console.log('props.articlePages',props.articlePages)
   //componentDidMount
   useEffect(() => {
     props.getArticleListAsync(page, category, tags, sort, search)
@@ -56,7 +54,7 @@ function ArticleHome(props) {
           <div>
             {/* category btn series */}
             <button
-              className="btn article-cate-btn text-info"
+              className="btn article-cate-btn text-info "
               onClick={() => setCategory('')}
             >
               全部分類
@@ -195,7 +193,7 @@ function ArticleHome(props) {
         </div>
         <div className="row">
           {/* 將每個row使用map至各個card中 */}
-          {props.articleData.map((item) => {
+          {props.articleRows.map((item) => {
             return (
               <div
                 key={item.sid}
@@ -251,7 +249,7 @@ function ArticleHome(props) {
                           </button>
                         </span>
                       )
-                    })}
+                    })} 
                     <span className="article-card-cates text-right ml-auto">
                       <Link
                         to={'/ArticlePage/' + item.sid}
@@ -268,21 +266,29 @@ function ArticleHome(props) {
           })}
         </div>
         {/* <Pagination page={page} setPage={setPage}/> */}
-         {/* {props.articleListData.map((item, index) => {
-          return ( */}
-             <nav aria-label="Page navigation example">
+
+        <nav aria-label="Page navigation example">
           <ul className="pagination d-flex justify-content-center">
             <li className="page-item">
               <a className="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
-              </a>
-            </li>
+            {props.articlePages.map((item, index) => {
+              return (
+                <li
+                  className="page-item"
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setPage({ item })
+                  }}
+                >
+                  <a className="page-link" href="#">
+                    {item}
+                  </a>
+                </li>
+              )
+            })}
             <li className="page-item">
               <a className="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -290,9 +296,6 @@ function ArticleHome(props) {
             </li>
           </ul>
         </nav>
-          {/* )
-        })} */}
-        
       </div>
     </>
   )
@@ -301,7 +304,8 @@ function ArticleHome(props) {
 //取得redux中store的值
 const mapStateToProps = (store) => {
   return {
-    articleData: store.articleList,
+    articleRows: store.articleList,
+    articlePages: store.articleListPages,
   }
 }
 export default withRouter(
