@@ -9,6 +9,7 @@ const cors = require("cors");
 
 //未設置會導致react fetch失敗
 app.use(cors());
+
 //article
 // router.get("/", (req, res) => {
 //   res.redirect("/article/list");
@@ -25,8 +26,7 @@ async function getListData(req) {
     pages: [],
   };
 
-  // all/search/category/tags->totalrows
-  //first-deal with rows/pages
+  // totalRows(設定各種條件篩選)
   const search = req.query.search;
   const category = req.query.category;
   const tags = req.query.tags;
@@ -39,9 +39,10 @@ async function getListData(req) {
   tags ? (total_totalRows += tags_set) : total_totalRows;
   category ? (total_totalRows += category_set) : total_totalRows;
   search ? (total_totalRows += search_set) : total_totalRows;
-  // console.log(total_totalRows);
 
   const [[{ totalRows }]] = await db.query(total_totalRows);
+
+  // 利用totalRows與設定單頁筆數計算總頁數
   if (totalRows === 0) output.totalRows = totalRows;
   if (totalRows > 0) {
     let page = parseInt(req.query.page) || 1;
@@ -56,34 +57,30 @@ async function getListData(req) {
       output.page = page;
     }
 
-    //pagination(show 5 pages)
-    (function(page, totalPages, prevNum){
-       let pages = [];
-    if (output.totalPages < prevNum*2+1) {
-      for (let i = 0; i < output.totalPages.length; i++) {
+    //頁碼處理:(目的地頁 前後各留兩個頁碼)
+    (function (page, totalPages, prevNum) {
+      let beginPage, endPage;
+      if (totalPages <= prevNum * 2 + 1) {
+        beginPage = 1;
+        endPage = totalPages;
+      } else if (page - 1 < prevNum) {
+        beginPage = 1;
+        endPage = prevNum * 2 + 1;
+      } else if (totalPages - page < prevNum) {
+        beginPage = totalPages - (prevNum * 2 + 1)+1;
+        endPage = totalPages;
+      } else {
+        beginPage = page - prevNum;
+        endPage = page + prevNum;
+      }
+
+      //將開始頁到結束頁作為pages陣列
+      for (let i = beginPage; i <= endPage; i++) {
         output.pages.push(i);
       }
-    } else {
-      const frontPages = [];
-      const backPages = [];
-      //add pages from front,(output-2 means adding 2 pages before page)
-      for (let i = output.page - 2; i < output.totalPages; i++) {
-        if (i >= 1) frontPages.push(i); //only push page>=1
-        if (frontPages.length >= prevNum*2+1) break;
-      }
+    })(page, output.totalPages, 2);
 
-      //add pages from back,(output+2 means adding 2 pages after page)
-      for (let i = output.page + 2; i < output.totalPages; i--) {
-        if (i <= output.totalPages) backPages.unshift(i); //only push page under totalpages
-        if (backPages.length >= prevNum*2+1) break;
-      }
-       pages = frontPages.length > backPages.length ? frontPages : backPages;
-            }
-            output.pages = pages;
-        })(page, output.totalPages, 2);
-
-    // all/search/category/tags->allrows
-    //second-deal with dataRows
+    // rows (設定各種條件篩選)
     let sql = `SELECT * FROM article WHERE 1 `;
     const sql_order_default = ` ORDER BY sid DESC LIMIT ${
       (output.page - 1) * output.perPage
@@ -99,6 +96,7 @@ async function getListData(req) {
 
     const [rows] = await db.query(sql);
 
+    // 轉換日期格式
     rows.forEach((element) => {
       element.article_created_at = moment(element.article_created_at).format(
         "YYYY-MM-DD"
@@ -115,15 +113,8 @@ router.get("/", async (req, res) => {
   const output = await getListData(req);
   const rows = output.rows;
   const pages = output.pages;
-  // res.json([output.rows,output.pages]); 
-  res.json([rows,pages]); //為了只取到rows陣列json
+  res.json([rows, pages, output]); //分別取得rows,pages陣列json以及totalPages(finalPage)
   // res.json(await getListData(req));
-});
-
-//article totalRows(R)
-router.get("/totalrows/", async (req, res) => {
-  const output = await getListData(req);
-  res.json(output); //為了得到totalRows,page等資料
 });
 
 //article detail(R)

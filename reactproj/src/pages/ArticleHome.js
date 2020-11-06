@@ -21,9 +21,6 @@ function ArticleHome(props) {
   const [search, setSearch] = useState('')
   // const [active, setActive] = useState(false)
 
-  // console.log('props',props)
-  // console.log('props.articleData',props.articleRows)
-  // console.log('props.articlePages',props.articlePages)
   //componentDidMount
   useEffect(() => {
     props.getArticleListAsync(page, category, tags, sort, search)
@@ -269,7 +266,7 @@ function ArticleHome(props) {
 
         <nav aria-label="Page navigation example">
           <ul className="pagination d-flex justify-content-center">
-            <li className="page-item">
+            <li className="page-item" onClick={(event) => { event.preventDefault(); setPage(1)}}>
               <a className="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
@@ -290,7 +287,7 @@ function ArticleHome(props) {
                 </li>
               )
             })}
-            <li className="page-item">
+            <li className="page-item" onClick={(event) => { event.preventDefault(); setPage(props.articleTotalRows.totalPages) }}>
               <a className="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
@@ -307,6 +304,7 @@ const mapStateToProps = (store) => {
   return {
     articleRows: store.articleList,
     articlePages: store.articleListPages,
+    articleTotalRows: store.articleListTotalRows,
   }
 }
 export default withRouter(
