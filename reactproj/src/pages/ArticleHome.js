@@ -1,3 +1,4 @@
+import './../styles/article.scss'
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -6,10 +7,11 @@ import { Link } from 'react-router-dom'
 import { FaTags, FaHotjar, FaCaretRight } from 'react-icons/fa'
 import { GrEdit } from 'react-icons/gr'
 import { MdAutorenew } from 'react-icons/md'
+import { RiArrowLeftSFill, RiArrowRightSFill } from 'react-icons/ri'
 //components
 import ArticleCarousel from './../compoments/ArticleCarousel'
 import Searchbar from './../compoments/Searchbar'
-// import ScrollToTop from './../compoments/ScrollToTop'
+import ClickToTop from './../compoments/ClickToTop'
 //actions
 import { getArticleList, getArticleListAsync } from '../actions/index'
 
@@ -33,10 +35,10 @@ function ArticleHome(props) {
   }, [page, category, tags, search, sort])
 
   return (
-    <>
+    <div className="article-body">
       <ArticleCarousel />
-      <div className="container mx-auto">
-        <nav aria-label="breadcrumb">
+      <div className="article-container mx-auto">
+        <nav aria-label="breadcrumb" className="article-breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item active">
               <Link to={'/'}>
@@ -51,31 +53,31 @@ function ArticleHome(props) {
           <div>
             {/* category btn series */}
             <button
-              className="btn article-cate-btn text-info "
+              className="article-cate-btn"
               onClick={() => setCategory('')}
             >
               全部分類
             </button>
             <button
-              className="btn article-cate-btn text-info"
+              className="article-cate-btn"
               onClick={() => setCategory('官方公告')}
             >
               官方公告
             </button>
             <button
-              className="btn article-cate-btn text-info"
+              className="article-cate-btn"
               onClick={() => setCategory('活動訊息')}
             >
               活動訊息
             </button>
             <button
-              className="btn article-cate-btn text-info"
+              className="article-cate-btn"
               onClick={() => setCategory('Podcast相關')}
             >
               Podcast相關
             </button>
             <button
-              className="btn article-cate-btn text-info"
+              className="article-cate-btn"
               onClick={() => setCategory('每週頻道推薦')}
             >
               每週頻道推薦
@@ -88,7 +90,7 @@ function ArticleHome(props) {
             <FaTags className="icon" />
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               onClick={() => {
                 setTags('')
               }}
@@ -97,7 +99,7 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               style={{ border: 'solid 1px #b9e3ff' }}
               onClick={() => {
                 setTags('新聞')
@@ -107,7 +109,7 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               style={{ border: 'solid 1px #fadb28' }}
               onClick={() => {
                 setTags('商業')
@@ -117,7 +119,7 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               style={{ border: 'solid 1px #84e5bd' }}
               onClick={() => {
                 setTags('科技')
@@ -127,7 +129,7 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               style={{ border: 'solid 1px #f780ae' }}
               onClick={() => {
                 setTags('教育')
@@ -137,7 +139,7 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               style={{ border: 'solid 1px #846def' }}
               onClick={() => {
                 setTags('故事')
@@ -147,7 +149,7 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               style={{ border: 'solid 1px #f7aa99' }}
               onClick={() => {
                 setTags('娛樂')
@@ -157,7 +159,7 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="btn article-tags-btn text-info"
+              className="article-tags-btn"
               style={{ border: 'solid 1px #f8f8f8' }}
               onClick={() => {
                 setTags('運動')
@@ -167,7 +169,7 @@ function ArticleHome(props) {
             </button>
           </div>{' '}
           {/* sort btn series */}
-          <div>
+          <div className="article-sort-btn">
             <span
               className=""
               onClick={() => {
@@ -188,7 +190,7 @@ function ArticleHome(props) {
             </span>
           </div>
         </div>
-        <div className="row">
+        <div className="">
           {/* 將每個row使用map至各個card中 */}
           {props.articleRows.map((item) => {
             return (
@@ -237,7 +239,7 @@ function ArticleHome(props) {
                         <span key={index}>
                           <button
                             type="button"
-                            className="btn article-tags-btn text-info"
+                            className="article-tags-btn"
                             onClick={() => {
                               setTags(`${tag}`)
                             }}
@@ -246,7 +248,7 @@ function ArticleHome(props) {
                           </button>
                         </span>
                       )
-                    })} 
+                    })}
                     <span className="article-card-cates text-right ml-auto">
                       <Link
                         to={'/ArticlePage/' + item.sid}
@@ -262,40 +264,51 @@ function ArticleHome(props) {
             )
           })}
         </div>
-        {/* <Pagination page={page} setPage={setPage}/> */}
-
-        <nav aria-label="Page navigation example">
-          <ul className="pagination d-flex justify-content-center">
-            <li className="page-item" onClick={(event) => { event.preventDefault(); setPage(1)}}>
-              <a className="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
+        <nav aria-label="article-pagination example">
+          <ul className="article-pagination d-flex justify-content-center">
+            <li
+              className=""
+              onClick={(event) => {
+                event.preventDefault()
+                setPage(1)
+              }}
+            >
+              <a className="" href="#" aria-label="Previous">
+                <RiArrowLeftSFill />
               </a>
             </li>
             {props.articlePages.map((item, index) => {
-              if(item>=1)
-              return (
-                <li
-                  className="page-item"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setPage(`${item}`)
-                  }}
-                >
-                  <a className="page-link" href="#">
-                    {item}
-                  </a>
-                </li>
-              )
+              if (item >= 1)
+                return (
+                  <li
+                    className=""
+                    onClick={(event) => {
+                      event.preventDefault()
+                      setPage(`${item}`)
+                    }}
+                  >
+                    <a className="" href="#">
+                      {item}
+                    </a>
+                  </li>
+                )
             })}
-            <li className="page-item" onClick={(event) => { event.preventDefault(); setPage(props.articleTotalRows.totalPages) }}>
-              <a className="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
+            <li
+              className=""
+              onClick={(event) => {
+                event.preventDefault()
+                setPage(props.articleTotalRows.totalPages)
+              }}
+            >
+              <a className="" href="#" aria-label="Next">
+                <RiArrowRightSFill />
               </a>
             </li>
           </ul>
         </nav>
       </div>
-    </>
+      <ClickToTop />
+    </div>
   )
 }
 

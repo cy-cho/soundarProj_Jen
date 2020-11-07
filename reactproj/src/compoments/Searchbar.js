@@ -8,10 +8,10 @@ function Searchbar(props) {
       <div className="d-flex">
         <div className="article-search-wrap ">
           <input className="article-search-input" type="search" placeholder="Search" onChange={(event) =>{setValue(event.target.value)}} />
-          <button type="submit" className="btn text-info article-search-btn" onClick={()=>props.setSearch(value)}>
+          <button type="submit" className=" article-search-btn" onClick={()=>props.setSearch(value)}>
             搜尋
           </button>
-          <FaSearch className="icon-search"/>
+          <FaSearch className="icon"/>
         </div>
       </div>
     </>

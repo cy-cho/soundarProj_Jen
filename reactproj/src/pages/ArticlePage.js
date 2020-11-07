@@ -1,3 +1,4 @@
+import './../styles/article.scss'
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -7,6 +8,7 @@ import { GrEdit } from 'react-icons/gr'
 //components
 import ArticleCarousel from './../compoments/ArticleCarousel'
 import ArticleComment from './../compoments/ArticleComment'
+import ClickToTop from './../compoments/ClickToTop'
 // import ScrollToTop from './../compoments/ScrollToTop'
 //actions
 import { getArticleDetail, getArticleDetailAsync} from '../actions/index'
@@ -24,12 +26,12 @@ function ArticlePage(props) {
   },[fontSize])
 console.log('page',props.articleDetailData)
   return (
-    <>
+    <div className="article-body">
       {' '}
       <ArticleCarousel />
-      <div className="container mx-auto">
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
+      <div className="article-container mx-auto">
+        <nav aria-label="breadcrumb" className="article-breadcrumb">
+          <ol className="breadcrumb article-breadcrumb">
             <li className="breadcrumb-item">
               <Link to={'/'}>
                 <GrEdit className="icon mx-1" />
@@ -39,7 +41,6 @@ console.log('page',props.articleDetailData)
             <li className="breadcrumb-item">
                 <Link>{props.articleDetailData.article_title}</Link>
               </li>
-
           </ol>
         </nav>
         {/* Content */}
@@ -78,7 +79,7 @@ console.log('page',props.articleDetailData)
                           <Link to={'/'}>
                             <button
                               type="button"
-                              className="btn article-tags-btn text-info"
+                              className="article-tags-btn"
                               onClick={() => {
                                 props.setTags(`${tag}`)
                               }}
@@ -90,7 +91,6 @@ console.log('page',props.articleDetailData)
                       )
                     })}
                   </div>
-
                   <div className="article-page-others d-flex justify-content-between">
                     <div className="article-page-previous">
                       <span>上一篇：</span>
@@ -102,12 +102,11 @@ console.log('page',props.articleDetailData)
                     </div>
                   </div>
                 </div>
-             
         </div>
-
         <ArticleComment />
       </div>
-    </>
+      <ClickToTop />
+    </div>
   )
 }
 //取得redux中store的值
