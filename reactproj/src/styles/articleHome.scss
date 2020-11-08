@@ -1,59 +1,91 @@
 //ArticleHome CSS------------------
-.article-search-wrap {
-  position: relative;
-  width: 23.75rem;
-  height: 3rem;
-
-  .article-search-input {
-    position: absolute;
-    width: 100%;
-    color: #f8f8f8;
-    border: solid 1px #f8f8f8;
-    border-radius: 38px;
-    background-color: #232d2f;
-    padding-left: 3rem;
-    line-height: 3rem;
-    outline: none; //input預設外框
-  }
-
-  .icon {
-    position: absolute;
-    top: 0.9rem;
-    left: 1.2rem;
-    z-index: 2;
-    font-size: 1.2rem;
-  }
-
-  .article-search-btn {
-    position: absolute;
-    right: 0;
-    width: 7rem;
-    background-color: #444c4e;
-    color: #f8f8f8;
-    background-color: none;
-    border-radius: 38px;
-    border: 1px solid #f8f8f8;
-    margin-left: 1rem;
-    font-size: 1.25rem;
-    line-height: 3rem;
-  }
-}
-
-.article-cate-btn {
-  color: #f8f8f8;
-  border-radius: 38px;
-  border: 1px solid #f8f8f8;
-  padding: 0 1.5rem;
-  margin-left: 2rem;
-  background-color: #232d2f;
-  font-size: 1.25rem;
-  line-height: 3rem;
-}
-
 .article-cate-btn:focus,
 .article-search-btn:focus,
 .article-tags-btn:focus {
-  outline: none;
+  outline: none; //去除BS預設active外框
+}
+
+.article-sort-btn span:hover,
+.article-card-cates:hover {
+  cursor: pointer;
+}
+
+.article-cate-row {
+  .article-search-wrap {
+    position: relative;
+    width: 23.75rem;
+    height: 3rem;
+
+    .article-search-input {
+      position: absolute;
+      width: 100%;
+      color: #f8f8f8;
+      border: solid 1px #f8f8f8;
+      border-radius: 38px;
+      background-color: #232d2f;
+      padding-left: 3rem;
+      padding-right: 1rem;
+      line-height: 3rem;
+      outline: none; //input預設外框
+    }
+    
+    input::-webkit-search-cancel-button {
+    display: none;
+    }
+
+    .icon {
+      position: absolute;
+      top: 0.9rem;
+      left: 1.2rem;
+      z-index: 2;
+      font-size: 1.2rem;
+    }
+    .icon-cancel{
+      position: absolute;
+      top: 0;
+      bottom:0;
+      margin:auto;
+      right: 1.2rem;
+      z-index: 2;
+      font-size: 2rem;
+    }
+
+    .article-search-btn {
+      position: absolute;
+      right: 0;
+      width: 7rem;
+      background-color: #444c4e;
+      color: #f8f8f8;
+      background-color: none;
+      border-radius: 38px;
+      border: 1px solid #f8f8f8;
+      margin-left: 1rem;
+      font-size: 1.25rem;
+      line-height: 3rem;
+    }
+    .article-search-btn:hover {
+      background-color: #232d2f;
+    }
+  }
+
+  .article-cate-btn {
+    color: #f8f8f8;
+    border-radius: 38px;
+    border: 1px solid #f8f8f8;
+    padding: 0 1.5rem;
+    margin-left: 2rem;
+    background-color: #232d2f;
+    font-size: 1.25rem;
+    line-height: 3rem;
+  }
+  .article-cate-btn:hover {
+    background-color: #2690df;
+  }
+
+  .active {
+    //article-cate-btn專屬
+    background-color: #2690df;
+  }
 }
 
 .article-tags-row {
@@ -63,15 +95,44 @@
     span {
       font-size: 1.25rem;
       line-height: 1.8;
-      font-weight: bold;
-      margin-left: 2.913rem;
+      font-weight: 500;
+      padding:0 1.2rem 0.5rem 1rem;
+    }
+    span:hover {
+      // color: #444c4e;
+      border-bottom: 4px solid #444c4e;
     }
   }
-}
-
-.article-sort-btn span:hover,
-.article-card-cates:hover {
-  cursor: pointer;
+  //for tags btn
+  .news{
+    background-color: #b9e3ff;
+    color:#232d2f;
+  }
+  .bussiness{
+    background-color: #fadb28;
+    color:#232d2f;
+  }
+  .technology{
+    background-color: #84e5bd;
+    color:#232d2f;
+  }
+  .education{
+    background-color: #f780ae;
+    color:#232d2f;
+  }
+  .story {
+    background-color: #846def;
+    color:#232d2f;
+  }
+  .entainment{
+    background-color: #f7aa99;
+    color:#232d2f;
+  }
+  .all,
+  .sport{
+    background-color: #f8f8f8;
+    color:#232d2f;
+  }
 }
 
 .article-card {
@@ -85,7 +146,7 @@
     margin: 0 3.6rem;
     h4 {
       font-weight: 500;
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
   }
 
@@ -124,16 +185,19 @@
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       text-align: justify;
+       text-indent:2rem;
     }
 
     .article-card-cates {
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 1.25rem;
+      font-weight: 500;
     }
   }
 }
 
 .article-pagination {
+  margin-bottom: 0;
+
   li {
     list-style-type: none;
     width: 3.125rem;
@@ -141,9 +205,9 @@
     background-color: #44494a;
     border: 1px solid #f8f8f8;
     border-radius: 0;
-    padding: 0.7rem 1.25rem;
-    margin: 0rem 0.188rem;
-
+    display:flex;
+    justify-content: center;
+    align-items: center;
     a {
       color: #f8f8f8;
       font-size: 1.25rem;

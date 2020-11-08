@@ -4,14 +4,13 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 //icons
-import { FaTags, FaHotjar, FaCaretRight } from 'react-icons/fa'
-import { GrEdit } from 'react-icons/gr'
+import { FaTags, FaHotjar, FaCaretRight, FaPencilAlt } from 'react-icons/fa'
 import { MdAutorenew } from 'react-icons/md'
-import { RiArrowLeftSFill, RiArrowRightSFill } from 'react-icons/ri'
 //components
-import ArticleCarousel from './../compoments/ArticleCarousel'
-import Searchbar from './../compoments/Searchbar'
-import ClickToTop from './../compoments/ClickToTop'
+import ArticleCarousel from './../components/ArticleCarousel'
+import Searchbar from './../components/Searchbar'
+import ClickToTop from './../components/ClickToTop'
+import Pagination from './../components/Pagination'
 //actions
 import { getArticleList, getArticleListAsync } from '../actions/index'
 
@@ -21,14 +20,13 @@ function ArticleHome(props) {
   const [tags, setTags] = useState('')
   const [sort, setSort] = useState(false) //對應API 未設置排序預設為最新專欄(flase)
   const [search, setSearch] = useState('')
-  // const [active, setActive] = useState(false)
 
   //componentDidMount
   useEffect(() => {
     props.getArticleListAsync(page, category, tags, sort, search)
   }, [])
 
-  //compomentDidUpadate
+  //componentDidUpadate
   useEffect(() => {
     //給定所有useState造成update的參數
     props.getArticleListAsync(page, category, tags, sort, search)
@@ -42,7 +40,7 @@ function ArticleHome(props) {
           <ol className="breadcrumb">
             <li className="breadcrumb-item active">
               <Link to={'/'}>
-                <GrEdit className="icon mx-1" />
+                <FaPencilAlt className="mr-2" />
                 專欄首頁
               </Link>
             </li>
@@ -53,31 +51,49 @@ function ArticleHome(props) {
           <div>
             {/* category btn series */}
             <button
-              className="article-cate-btn"
+              className={
+                category === '' ? 'article-cate-btn active' : 'article-cate-btn'
+              }
               onClick={() => setCategory('')}
             >
               全部分類
             </button>
             <button
-              className="article-cate-btn"
+              className={
+                category === '官方公告'
+                  ? 'article-cate-btn active'
+                  : 'article-cate-btn'
+              }
               onClick={() => setCategory('官方公告')}
             >
               官方公告
             </button>
             <button
-              className="article-cate-btn"
+              className={
+                category === '活動訊息'
+                  ? 'article-cate-btn active'
+                  : 'article-cate-btn'
+              }
               onClick={() => setCategory('活動訊息')}
             >
               活動訊息
             </button>
             <button
-              className="article-cate-btn"
+              className={
+                category === 'Podcast相關'
+                  ? 'article-cate-btn active'
+                  : 'article-cate-btn'
+              }
               onClick={() => setCategory('Podcast相關')}
             >
               Podcast相關
             </button>
             <button
-              className="article-cate-btn"
+              className={
+                category === '每週頻道推薦'
+                  ? 'article-cate-btn active'
+                  : 'article-cate-btn'
+              }
               onClick={() => setCategory('每週頻道推薦')}
             >
               每週頻道推薦
@@ -90,7 +106,9 @@ function ArticleHome(props) {
             <FaTags className="icon" />
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '' ? 'article-tags-btn all' : 'article-tags-btn'
+              }
               onClick={() => {
                 setTags('')
               }}
@@ -99,7 +117,9 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '新聞' ? 'article-tags-btn news' : 'article-tags-btn'
+              }
               style={{ border: 'solid 1px #b9e3ff' }}
               onClick={() => {
                 setTags('新聞')
@@ -109,7 +129,11 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '商業'
+                  ? 'article-tags-btn bussiness'
+                  : 'article-tags-btn'
+              }
               style={{ border: 'solid 1px #fadb28' }}
               onClick={() => {
                 setTags('商業')
@@ -119,7 +143,11 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '科技'
+                  ? 'article-tags-btn technology'
+                  : 'article-tags-btn'
+              }
               style={{ border: 'solid 1px #84e5bd' }}
               onClick={() => {
                 setTags('科技')
@@ -129,7 +157,11 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '教育'
+                  ? 'article-tags-btn education'
+                  : 'article-tags-btn'
+              }
               style={{ border: 'solid 1px #f780ae' }}
               onClick={() => {
                 setTags('教育')
@@ -139,7 +171,9 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '故事' ? 'article-tags-btn story' : 'article-tags-btn'
+              }
               style={{ border: 'solid 1px #846def' }}
               onClick={() => {
                 setTags('故事')
@@ -149,7 +183,11 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '娛樂'
+                  ? 'article-tags-btn entainment'
+                  : 'article-tags-btn'
+              }
               style={{ border: 'solid 1px #f7aa99' }}
               onClick={() => {
                 setTags('娛樂')
@@ -159,7 +197,9 @@ function ArticleHome(props) {
             </button>
             <button
               type="button"
-              className="article-tags-btn"
+              className={
+                tags === '運動' ? 'article-tags-btn sport' : 'article-tags-btn'
+              }
               style={{ border: 'solid 1px #f8f8f8' }}
               onClick={() => {
                 setTags('運動')
@@ -176,7 +216,7 @@ function ArticleHome(props) {
                 setSort(false)
               }}
             >
-              <MdAutorenew className="icon" />
+              <MdAutorenew className="icon mr-1" />
               {''}最新專欄
             </span>
             <span
@@ -185,7 +225,7 @@ function ArticleHome(props) {
                 setSort(true)
               }}
             >
-              <FaHotjar className="icon" />
+              <FaHotjar className="icon mr-1" />
               {''}熱門專欄
             </span>
           </div>
@@ -221,7 +261,7 @@ function ArticleHome(props) {
                     <FaCaretRight className="icon" />
                     {item.article_title}
                   </h5>
-                  <p className="article-card-content  text-wrap">
+                  <p className="article-card-content text-wrap">
                     {item.article_content}
                   </p>
                   <div className="d-flex">
@@ -264,48 +304,12 @@ function ArticleHome(props) {
             )
           })}
         </div>
-        <nav aria-label="article-pagination example">
-          <ul className="article-pagination d-flex justify-content-center">
-            <li
-              className=""
-              onClick={(event) => {
-                event.preventDefault()
-                setPage(1)
-              }}
-            >
-              <a className="" href="#" aria-label="Previous">
-                <RiArrowLeftSFill />
-              </a>
-            </li>
-            {props.articlePages.map((item, index) => {
-              if (item >= 1)
-                return (
-                  <li
-                    className=""
-                    onClick={(event) => {
-                      event.preventDefault()
-                      setPage(`${item}`)
-                    }}
-                  >
-                    <a className="" href="#">
-                      {item}
-                    </a>
-                  </li>
-                )
-            })}
-            <li
-              className=""
-              onClick={(event) => {
-                event.preventDefault()
-                setPage(props.articleTotalRows.totalPages)
-              }}
-            >
-              <a className="" href="#" aria-label="Next">
-                <RiArrowRightSFill />
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          articlePages={props.articlePages}
+          articleTotalRows={props.articleTotalRows}
+        />
       </div>
       <ClickToTop />
     </div>

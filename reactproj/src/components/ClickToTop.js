@@ -1,4 +1,4 @@
-import './../styles/index.scss'
+import './../styles/article.scss'
 import React,{useState,useEffect} from 'react'
 import { withRouter } from 'react-router-dom'
 import { TiArrowSortedUp } from "react-icons/ti";

@@ -4,26 +4,26 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 //icons
-import { GrEdit } from 'react-icons/gr'
+import { FaPencilAlt } from 'react-icons/fa'
 //components
-import ArticleCarousel from './../compoments/ArticleCarousel'
-import ArticleComment from './../compoments/ArticleComment'
-import ClickToTop from './../compoments/ClickToTop'
-// import ScrollToTop from './../compoments/ScrollToTop'
+import ArticleCarousel from './../components/ArticleCarousel'
+import ArticleComment from './../components/ArticleComment'
+import ClickToTop from './../components/ClickToTop'
 //actions
 import { getArticleDetail, getArticleDetailAsync} from '../actions/index'
 
 function ArticlePage(props) {
   const [fontSize, setFontSize] = useState('1rem')
-
+  // 先字串化,再陣列化,才能map
+  const articleTagsArray = (''+props.articleDetailData.article_tags).split(',');
+  
   //componentDidMount
   useEffect(() => {
     props.getArticleDetailAsync(props.match.params.sid)
   }, [])
 
   //componentDidUpdate
-  useEffect(() => {
-  },[fontSize])
+  useEffect(() => {}, [fontSize])
 console.log('page',props.articleDetailData)
   return (
     <div className="article-body">
@@ -34,74 +34,103 @@ console.log('page',props.articleDetailData)
           <ol className="breadcrumb article-breadcrumb">
             <li className="breadcrumb-item">
               <Link to={'/'}>
-                <GrEdit className="icon mx-1" />
+                <FaPencilAlt className="mr-2" />
                 專欄首頁
               </Link>
             </li>
             <li className="breadcrumb-item">
-                <Link>{props.articleDetailData.article_title}</Link>
-              </li>
+              <Link>{props.articleDetailData.article_title}</Link>
+            </li>
           </ol>
         </nav>
         {/* Content */}
         <div className="d-flex">
-                <div className="article-page-date" >
-                  {/* 該時間為字串,非dateTime需先變成dateTime格式才使用getDate() */}
-                  {new Date(props.articleDetailData.article_created_at).getDate()} 
-                  <br /> 
-                  {/* 先變換時間格式,再取得月份 */}
-                  {new Date(props.articleDetailData.article_created_at).toDateString().slice(4, 8)}
-                </div>
-                <div className="article-content-wrap">
-                  <div className="article-title">{props.articleDetailData.article_title}</div>
-                  <div className="article-img">
-                    <img src={props.articleDetailData.article_img_url} alt="..." />
-                  </div>
-                  <div className="article-font-change text-right">
-                    <span>字體大小：</span>
-                    <span onClick={()=>{setFontSize('1rem')}}>小</span>
-                    <span onClick={()=>{setFontSize('1.2rem')}}>中</span>
-                    <span onClick={()=>{setFontSize('1.5rem')}}>大</span>
-                  </div>
-                  <div className="article-content-area" style={{'fontSize':fontSize}}>
-                    {props.articleDetailData.article_content}
-                  </div>
-                  <div className="article-page-category d-flex align-content-center">
-                    <span className="span-font mr-1">專欄分類：</span>
-                    <span className="span-font mr-5">
-                      {props.articleDetailData.article_category}
-                    </span>
-                    <span className="span-font mr-1 my-auto">標籤分類：</span>
-                    {/* tags原為字串,需變成陣列才map至各個span中 */}
-                    {[props.articleDetailData.article_tags].map((tag, index) => {
-                      return (
-                        <span key={index}>
-                          <Link to={'/'}>
-                            <button
-                              type="button"
-                              className="article-tags-btn"
-                              onClick={() => {
-                                props.setTags(`${tag}`)
-                              }}
-                            >
-                              {tag}
-                            </button>
-                          </Link>
-                        </span>
-                      )
-                    })}
-                  </div>
-                  <div className="article-page-others d-flex justify-content-between">
-                    <div className="article-page-previous">
-                      <span>上一篇：</span>
-                      <span></span>
-                    </div>
-                    <div className="article-page-next">
-                      <span>下一篇：</span>
-                      <span></span>
-                    </div>
-                  </div>
-                </div>
+          <div className="article-page-date">
+            {/* 該時間為字串,非dateTime需先變成dateTime格式才使用getDate() */}
+            {new Date(props.articleDetailData.article_created_at).getDate()}
+            <br />
+            {/* 先變換時間格式,再取得月份 */}
+            {new Date(props.articleDetailData.article_created_at)
+              .toDateString()
+              .slice(4, 8)}
+          </div>
+          <div className="article-content-wrap">
+            <div className="article-title">
+              {props.articleDetailData.article_title}
+            </div>
+            <div className="article-img">
+              <img src={props.articleDetailData.article_img_url} alt="..." />
+            </div>
+            <div className="article-font-change d-flex justify-content-end">
+              <p className="title">字體大小：</p>
+
+              <p
+                className={fontSize === '0.9rem' ? 'active' : ''}
+                onClick={() => {
+                  setFontSize('0.9rem')
+                }}
+              >
+                小
+              </p>
+              <p
+                className={fontSize === '1rem' ? 'active' : ''}
+                onClick={() => {
+                  setFontSize('1rem')
+                }}
+              >
+                中
+              </p>
+              <p
+                className={fontSize === '1.2rem' ? 'active' : ''}
+                onClick={() => {
+                  setFontSize('1.2rem')
+                }}
+              >
+                大
+              </p>
+            </div>
+            <div
+              className="article-content-area"
+              style={{ fontSize: fontSize }}
+            >
+              <p>{props.articleDetailData.article_content}</p>
+            </div>
+            <div className="article-page-category d-flex align-content-center">
+              <span className="span-font mr-1">專欄分類：</span>
+              <span className="span-font mr-5">
+                {props.articleDetailData.article_category}
+              </span>
+              <span className="span-font mr-1">標籤分類：</span>
+              {/* tags經過處理後,字串化並變成陣列才map至各個span中 */}
+              {articleTagsArray.map((tag, index) => {
+                return (
+                  <span key={index} className="my-auto">
+                    <Link to={'/'}>
+                      <button
+                        type="button"
+                        className="article-tags-btn"
+                        onClick={() => {
+                          props.setTags(`${tag}`)
+                        }}
+                      >
+                        {tag}
+                      </button>
+                    </Link>
+                  </span>
+                )
+              })}
+            </div>
+            <div className="article-page-others d-flex justify-content-between">
+              <div className="article-page-previous">
+                <span>上一篇：</span>
+                <span></span>
+              </div>
+              <div className="article-page-next">
+                <span>下一篇：</span>
+                <span></span>
+              </div>
+            </div>
+          </div>
         </div>
         <ArticleComment />
       </div>

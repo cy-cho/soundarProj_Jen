@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 // import MyFooter from './component/MyFooter'
 import ArticleHome from './pages/ArticleHome'
 import ArticlePage from './pages/ArticlePage'
+import ScrollToTop from './components/ScrollToTop'
 
 function App(props) {
   return (
@@ -12,19 +13,21 @@ function App(props) {
       <>
         {/* <MyNavbar /> */}
         {/* <MainContent> */}
-        <Switch>
-          <Route exact path="/">
-            <ArticleHome />
-          </Route>
-          <Route path="/articlepage/:sid">
-            <ArticlePage />
-          </Route>
+        <ScrollToTop>
+          <Switch>
+            <Route exact path="/">
+              <ArticleHome />
+            </Route>
+            <Route path="/articlepage/:sid">
+              <ArticlePage />
+            </Route>
           </Switch>
-          {/* </MainContent>  */}
+        </ScrollToTop>
+        {/* </MainContent>  */}
         {/* <MyFooter /> */}
       </>
     </Router>
-  );
+  )
 }
 
 export default App;

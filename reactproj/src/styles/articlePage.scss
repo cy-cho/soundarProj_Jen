@@ -1,6 +1,6 @@
 //ArticlePage CSS------------------
 .article-page-date {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-top: 19.3rem;
   text-align: center;
   width: 14.5rem;
@@ -9,8 +9,9 @@
 .article-content-wrap {
   width: 63.25rem;
   .article-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 500;
+    padding-bottom:2.5rem;
   }
 
   .article-img {
@@ -25,8 +26,19 @@
 
   .article-font-change {
     margin: 2rem 0;
-    span {
-      padding-left: 0.5rem;
+    .title{
+      width:auto;
+    }
+    p {
+      margin: 0.5rem;
+      border-radius: 50%;
+      text-align: center;
+    }
+    p:hover{
+      cursor:pointer;
+    }
+    p.active {
+      color:#707070;
     }
   }
 
@@ -36,14 +48,17 @@
     letter-spacing: 1px;
     margin-bottom: 4rem;
     text-align: justify;
+    p{
+       text-indent:2rem;
+    }
   }
 
   .article-page-category {
     padding-bottom: 2.531rem;
     border-bottom: solid 1px #707070;
     .span-font {
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 1.2rem;
+      font-weight: 500;
     }
   }
 
