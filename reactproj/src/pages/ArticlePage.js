@@ -15,18 +15,19 @@ import { getArticleDetail, getArticleDetailAsync,getArticleList,getArticleListAs
 
 function ArticlePage(props) {
   const [fontSize, setFontSize] = useState('1rem')
-  const [preSid, setPreSid] = useState(0)
-  const [nextSid, setNextSid] =useState(0)
+  const [sid, setSid] = useState(props.match.params.sid)
   // 先字串化,再陣列化,才能map
   const articleTagsArray = ('' + props.articleDetailData.article_tags).split(',')
 
   //componentDidMount
   useEffect(() => {
-    props.getArticleDetailAsync(props.match.params.sid)
+    props.getArticleDetailAsync(sid)
   }, [])
-  console.log(props)
+  // console.log(props)
   //componentDidUpdate
-  useEffect(() => {}, [fontSize])
+  useEffect(() => {
+    props.getArticleDetailAsync(sid)
+  }, [fontSize,sid])
   return (
     <div className="article-body">
       {' '}
@@ -121,7 +122,7 @@ function ArticlePage(props) {
                 )
               })}
             </div>
-           <ArticlePagePreAndNext />
+            <ArticlePagePreAndNext sid={sid} setSid={setSid}/>
           </div>
         </div>
         <ArticleComment />
