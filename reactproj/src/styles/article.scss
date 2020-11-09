@@ -59,28 +59,26 @@
       background-color: #232d2f;
     }
 
-    .icon {
-      font-size: 1.5rem;
-      color: #f8f8f8;
-    }
-
-    .article-click-to-top {
-      background-color: #444c4e;
-      border-radius: 50% 50%;
-      opacity: 0.5;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      color: #f8f8f8;
-      padding: 1rem;
-      display: none;
-    }
-
-    .article-click-to-top:hover {
-      opacity: 1;
-      cursor: pointer;
-    }
     @import './articleHome.scss';
     @import './articlePage.scss';
+  }
+  .icon {
+    font-size: 1.5rem;
+    color: #f8f8f8;
+  }
+  .article-click-to-top {
+    background-color: #444c4e;
+    border-radius: 50% 50%;
+    opacity: 0.5;
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    color: #f8f8f8;
+    padding: 1rem;
+    display: none;
+  }
+  .article-click-to-top:hover {
+    opacity: 1;
+    cursor: pointer;
   }
 }

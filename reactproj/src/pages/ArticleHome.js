@@ -211,7 +211,7 @@ function ArticleHome(props) {
           {/* sort btn series */}
           <div className="article-sort-btn">
             <span
-              className=""
+              className={sort===false? 'active':''}
               onClick={() => {
                 setSort(false)
               }}
@@ -220,7 +220,7 @@ function ArticleHome(props) {
               {''}最新專欄
             </span>
             <span
-              className=""
+              className={sort===true? 'active':''}
               onClick={() => {
                 setSort(true)
               }}
@@ -290,11 +290,7 @@ function ArticleHome(props) {
                       )
                     })}
                     <span className="article-card-cates text-right ml-auto">
-                      <Link
-                        to={'/ArticlePage/' + item.sid}
-                        style={{ color: '#F8F8F8' }}
-                        setTags={setTags}
-                      >
+                      <Link to={'/ArticlePage/' + item.sid} setTags={setTags}>
                         繼續閱讀
                       </Link>
                     </span>

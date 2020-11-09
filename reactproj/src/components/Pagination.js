@@ -1,8 +1,13 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 //icons
 import { RiArrowLeftSFill, RiArrowRightSFill } from 'react-icons/ri'
 
 function Pagination(props) {
+  // const [activeOrNot, setActiveOrNot] = useState('')
+
+  // useEffect(() => {
+  // }, [])
+  // useEffect(() => {}, [activeOrNot])
   return (
     <>
       <nav aria-label="article-pagination example">
@@ -22,6 +27,7 @@ function Pagination(props) {
             if (item >= 1)
               return (
                 <li
+                  key={index}
                   className=""
                   onClick={(event) => {
                     event.preventDefault()

@@ -93,16 +93,23 @@
 
   .article-sort-btn {
     span {
+      border-radius: 38px;
       font-size: 1.25rem;
       line-height: 1.8;
       font-weight: 500;
-      padding:0 1.2rem 0.5rem 1rem;
+      padding:0.5rem 1.2rem 0.5rem 1rem;
     }
-    span:hover {
+    span:hover, {
       // color: #444c4e;
-      border-bottom: 4px solid #444c4e;
+      background-color: #444c4e;
+      border-radius: 38px;
+      // border-bottom: 4px solid #444c4e;
+    }
+    .active{
+      background-color: #444c4e;
     }
   }
+
   //for tags btn
   .news{
     background-color: #b9e3ff;
@@ -185,12 +192,15 @@
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       text-align: justify;
-       text-indent:2rem;
+      text-indent:2rem;
     }
 
     .article-card-cates {
       font-size: 1.25rem;
       font-weight: 500;
+      a{
+        color: #F8F8F8;
+      }
     }
   }
 }
@@ -200,8 +210,8 @@
 
   li {
     list-style-type: none;
-    width: 3.125rem;
-    height: 3.125rem;
+    width: 2.5rem;
+    height: 2.5rem;
     background-color: #44494a;
     border: 1px solid #f8f8f8;
     border-radius: 0;
@@ -210,8 +220,12 @@
     align-items: center;
     a {
       color: #f8f8f8;
-      font-size: 1.25rem;
+      font-size: 1rem;
     }
+  }
+  li:hover,
+  li:active{
+    background-color: #2690df;
   }
   li:first-child {
     border-radius: 5px 0 0 5px;

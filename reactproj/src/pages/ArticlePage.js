@@ -9,22 +9,24 @@ import { FaPencilAlt } from 'react-icons/fa'
 import ArticleCarousel from './../components/ArticleCarousel'
 import ArticleComment from './../components/ArticleComment'
 import ClickToTop from './../components/ClickToTop'
+import ArticlePagePreAndNext from './../components/ArticlePagePreAndNext'
 //actions
-import { getArticleDetail, getArticleDetailAsync} from '../actions/index'
+import { getArticleDetail, getArticleDetailAsync,getArticleList,getArticleListAsync } from '../actions/index'
 
 function ArticlePage(props) {
   const [fontSize, setFontSize] = useState('1rem')
+  const [preSid, setPreSid] = useState(0)
+  const [nextSid, setNextSid] =useState(0)
   // 先字串化,再陣列化,才能map
-  const articleTagsArray = (''+props.articleDetailData.article_tags).split(',');
-  
+  const articleTagsArray = ('' + props.articleDetailData.article_tags).split(',')
+
   //componentDidMount
   useEffect(() => {
     props.getArticleDetailAsync(props.match.params.sid)
   }, [])
-
+  console.log(props)
   //componentDidUpdate
   useEffect(() => {}, [fontSize])
-console.log('page',props.articleDetailData)
   return (
     <div className="article-body">
       {' '}
@@ -63,7 +65,6 @@ console.log('page',props.articleDetailData)
             </div>
             <div className="article-font-change d-flex justify-content-end">
               <p className="title">字體大小：</p>
-
               <p
                 className={fontSize === '0.9rem' ? 'active' : ''}
                 onClick={() => {
@@ -109,9 +110,9 @@ console.log('page',props.articleDetailData)
                       <button
                         type="button"
                         className="article-tags-btn"
-                        onClick={() => {
-                          props.setTags(`${tag}`)
-                        }}
+                        // onClick={() => {
+                        //   props.setTags(`${tag}`)
+                        // }}
                       >
                         {tag}
                       </button>
@@ -120,16 +121,7 @@ console.log('page',props.articleDetailData)
                 )
               })}
             </div>
-            <div className="article-page-others d-flex justify-content-between">
-              <div className="article-page-previous">
-                <span>上一篇：</span>
-                <span></span>
-              </div>
-              <div className="article-page-next">
-                <span>下一篇：</span>
-                <span></span>
-              </div>
-            </div>
+           <ArticlePagePreAndNext />
           </div>
         </div>
         <ArticleComment />
@@ -140,10 +132,13 @@ console.log('page',props.articleDetailData)
 }
 //取得redux中store的值
 const mapStateToProps = (store) => {
-  return { articleDetailData: store.articleDetail }
+  return {
+    articleDetailData: store.articleDetail,
+    articleRows: store.articleList,
+  }
 }
 export default withRouter(
-  connect(mapStateToProps, { getArticleDetail, getArticleDetailAsync })(
+  connect(mapStateToProps, { getArticleDetail, getArticleDetailAsync,getArticleList,getArticleListAsync })(
     ArticlePage
   )
 )

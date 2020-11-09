@@ -43,13 +43,16 @@
   }
 
   .article-content-area {
+    width: 100%;
     color: #f8f8f8;
     line-height: 2.5rem;
     letter-spacing: 1px;
     margin-bottom: 4rem;
     text-align: justify;
+    //使跳脫文字有作用
+    white-space: pre-wrap;
     p{
-       text-indent:2rem;
+      //  text-indent:2rem;
     }
   }
 
