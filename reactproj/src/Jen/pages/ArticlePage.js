@@ -27,7 +27,11 @@ function ArticlePage(props) {
   //componentDidUpdate
   useEffect(() => {
     props.getArticleDetailAsync(sid)
-  }, [fontSize,sid])
+  }, [fontSize, sid])
+  useEffect(() => {
+    //每當更換新文章時自動滾至頁首
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+  },[sid])
   return (
     <div className="article-body">
       {' '}
@@ -42,7 +46,9 @@ function ArticlePage(props) {
               </Link>
             </li>
             <li className="breadcrumb-item">
-              <Link>{props.articleDetailData.article_title}</Link>
+              <a onClick={(event) => event.preventDefault()}>
+                {props.articleDetailData.article_title}
+              </a>
             </li>
           </ol>
         </nav>
@@ -107,22 +113,22 @@ function ArticlePage(props) {
               {articleTagsArray.map((tag, index) => {
                 return (
                   <span key={index} className="my-auto">
-                    <Link to={'/'}>
-                      <button
-                        type="button"
-                        className="article-tags-btn"
-                        // onClick={() => {
-                        //   props.setTags(`${tag}`)
-                        // }}
-                      >
-                        {tag}
-                      </button>
-                    </Link>
+                    {/* <Link to={'/'}> */}
+                    <button
+                      type="button"
+                      className="article-tags-btn"
+                      // onClick={() => {
+                      //   props.setTags(`${tag}`)
+                      // }}
+                    >
+                      {tag}
+                    </button>
+                    {/* </Link> */}
                   </span>
                 )
               })}
             </div>
-            <ArticlePagePreAndNext sid={sid} setSid={setSid}/>
+            <ArticlePagePreAndNext sid={sid} setSid={setSid} />
           </div>
         </div>
         <ArticleComment />

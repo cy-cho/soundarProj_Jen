@@ -67,5 +67,14 @@
 
   .article-page-others {
     padding: 1.29rem 0 2rem 0;
+    .article-page-previous,
+    .article-page-next{
+      cursor:pointer;
+    }
+    .article-page-previous:hover,
+    .article-page-next:hover{
+      color:#707070;
+    }
+
   }
 }

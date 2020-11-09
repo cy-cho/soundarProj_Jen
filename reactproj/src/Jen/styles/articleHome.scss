@@ -42,9 +42,7 @@
     }
     .icon-cancel{
       position: absolute;
-      top: 0;
-      bottom:0;
-      margin:auto;
+      top: calc(50% - 0.9rem);
       right: 1.2rem;
       z-index: 2;
       font-size: 2rem;
@@ -206,7 +204,7 @@
 }
 
 .article-pagination {
-  margin-bottom: 0;
+  margin-top: 4rem;
 
   li {
     list-style-type: none;

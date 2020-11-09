@@ -1,8 +1,8 @@
 const express = require("express");
-const db = require(__dirname + "/../../db_connect2");
+const db = require(__dirname + "/../db_connect2");
 const moment = require("moment-timezone");
 const jwt = require("jsonwebtoken");
-const upload_module = require(__dirname + "/../../upload_module");
+const upload_module = require(__dirname + "/../upload_module");
 const app = express();
 const router = express.Router();
 const cors = require("cors");

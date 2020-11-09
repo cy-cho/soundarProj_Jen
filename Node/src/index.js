@@ -32,10 +32,10 @@ app.get('/', (req, res) => {
 })
 
 //article
-app.use('/article', require(__dirname + '/routes/Jen/article'));
+app.use('/article', require(__dirname + '/routes/article'));
 
 //article-comment
-app.use('/article/comment', require(__dirname + '/routes/Jen/article_comment'));
+app.use('/article/comment', require(__dirname + '/routes/article_comment'));
 
 //404
 app.use((req, res) => { 

@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 // import MyNavbar from './component/MyNavbar'
 // import MainContent from './component/MainContent'
 // import MyFooter from './component/MyFooter'
-import ArticleHome from './pages/ArticleHome'
-import ArticlePage from './pages/ArticlePage'
-import ScrollToTop from './components/ScrollToTop'
+import ArticleHome from './Jen/pages/ArticleHome'
+import ArticlePage from './Jen/pages/ArticlePage'
+import ScrollToTop from './Jen/components/ScrollToTop'
 
 function App(props) {
   return (

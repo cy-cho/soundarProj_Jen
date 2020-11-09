@@ -44,8 +44,16 @@
       margin: 4rem 0;
       ol {
         background-color: #232d2f;
-        a {
-          color: #f8f8f8;
+        li {
+          a {
+            color: #f8f8f8;
+          }
+        }
+        li:last-child{
+          a{
+            color:#444c4e;
+            cursor:default;
+          }
         }
       }
     }

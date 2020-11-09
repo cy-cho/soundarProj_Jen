@@ -31,7 +31,10 @@ function ArticleHome(props) {
     //給定所有useState造成update的參數
     props.getArticleListAsync(page, category, tags, sort, search)
   }, [page, category, tags, search, sort])
-
+  useEffect(() => {
+    //每當設定新條件時，自動將頁面滾至頁首
+    window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+  },[page,category,tags,sort])
   return (
     <div className="article-body">
       <ArticleCarousel />
@@ -54,7 +57,7 @@ function ArticleHome(props) {
               className={
                 category === '' ? 'article-cate-btn active' : 'article-cate-btn'
               }
-              onClick={() => setCategory('')}
+              onClick={() => { setCategory(''); setPage(1) }}
             >
               全部分類
             </button>
@@ -64,7 +67,7 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => setCategory('官方公告')}
+              onClick={() => { setCategory('官方公告'); setPage(1) }}
             >
               官方公告
             </button>
@@ -74,7 +77,7 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => setCategory('活動訊息')}
+              onClick={() => {setCategory('活動訊息'); setPage(1) }}
             >
               活動訊息
             </button>
@@ -84,7 +87,7 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => setCategory('Podcast相關')}
+              onClick={() => {setCategory('Podcast相關'); setPage(1) }}
             >
               Podcast相關
             </button>
@@ -94,7 +97,7 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => setCategory('每週頻道推薦')}
+              onClick={() => {setCategory('每週頻道推薦'); setPage(1) }}
             >
               每週頻道推薦
             </button>
@@ -110,7 +113,7 @@ function ArticleHome(props) {
                 tags === '' ? 'article-tags-btn all' : 'article-tags-btn'
               }
               onClick={() => {
-                setTags('')
+               { setTags(''); setPage(1) }
               }}
             >
               全部
@@ -122,7 +125,7 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #b9e3ff' }}
               onClick={() => {
-                setTags('新聞')
+                {setTags('新聞'); setPage(1) }
               }}
             >
               新聞
@@ -136,7 +139,7 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #fadb28' }}
               onClick={() => {
-                setTags('商業')
+                {setTags('商業'); setPage(1) }
               }}
             >
               商業
@@ -150,7 +153,7 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #84e5bd' }}
               onClick={() => {
-                setTags('科技')
+                {setTags('科技'); setPage(1) }
               }}
             >
               科技
@@ -164,7 +167,7 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #f780ae' }}
               onClick={() => {
-                setTags('教育')
+                {setTags('教育'); setPage(1) }
               }}
             >
               教育
@@ -176,7 +179,7 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #846def' }}
               onClick={() => {
-                setTags('故事')
+                {setTags('故事'); setPage(1) }
               }}
             >
               故事
@@ -190,7 +193,7 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #f7aa99' }}
               onClick={() => {
-                setTags('娛樂')
+                {setTags('娛樂'); setPage(1) }
               }}
             >
               娛樂
@@ -202,7 +205,7 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #f8f8f8' }}
               onClick={() => {
-                setTags('運動')
+                {setTags('運動'); setPage(1) }
               }}
             >
               運動
@@ -213,7 +216,7 @@ function ArticleHome(props) {
             <span
               className={sort===false? 'active':''}
               onClick={() => {
-                setSort(false)
+                {setSort(false); setPage(1) }
               }}
             >
               <MdAutorenew className="icon mr-1" />
@@ -222,7 +225,7 @@ function ArticleHome(props) {
             <span
               className={sort===true? 'active':''}
               onClick={() => {
-                setSort(true)
+                {setSort(true); setPage(1) }
               }}
             >
               <FaHotjar className="icon mr-1" />

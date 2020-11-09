@@ -4,6 +4,7 @@ import { TiDelete } from 'react-icons/ti'
 
 function Searchbar(props) {
   const [value, setValue] = useState('')
+
   return (
     <>
       <div className="d-flex">
@@ -27,10 +28,10 @@ function Searchbar(props) {
             />
           ) : (
             <button
-              type="submit"
-              className=" article-search-btn"
-              onClick={() => props.setSearch(value)}
-            >
+                type="submit"
+                className=" article-search-btn"
+                onClick={(event) => { props.setSearch(value)
+                 }}>
               搜尋
             </button>
           )}
