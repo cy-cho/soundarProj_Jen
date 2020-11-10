@@ -7,7 +7,7 @@ import articleDetailPre from './articleDetailPre'
 import articleDetailNext from './articleDetailNext'
 
 
-export const rootReducer = combineReducers({
+export const jen_rootReducer = combineReducers({
   articleList,
   articleDetail,
   articleListPages,

@@ -20,7 +20,7 @@ function ArticleHome(props) {
   const [tags, setTags] = useState('')
   const [sort, setSort] = useState(false) //對應API 未設置排序預設為最新專欄(flase)
   const [search, setSearch] = useState('')
-
+  console.log('totalrows',props.articleTotalRows)
   //componentDidMount
   useEffect(() => {
     props.getArticleListAsync(page, category, tags, sort, search)
@@ -235,7 +235,8 @@ function ArticleHome(props) {
         </div>
         <div className="">
           {/* 將每個row使用map至各個card中 */}
-          {props.articleRows.map((item) => {
+          {(props.articleTotalRows.totalRows !== 0) ?
+            props.articleRows.map((item) => {
             return (
               <div
                 key={item.sid}
@@ -301,7 +302,15 @@ function ArticleHome(props) {
                 </div>
               </div>
             )
-          })}
+            }) :
+            <div className="article-card d-flex flex-row align-items-center justify-content-center">
+              <div className="article-card-none">
+                <h5 className="pb-5">-查無相關專欄-</h5>
+                <p>分類：{ (category)? category:'未設定'}</p>
+                <p>標籤：{ (tags)? tags:'未設定'}</p>
+                <p>關鍵字：{ (search)? search:'未設定'}</p>
+              </div>
+            </div>}
         </div>
         <Pagination
           page={page}

@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react'
 import { RiArrowLeftSFill, RiArrowRightSFill } from 'react-icons/ri'
 
 function Pagination(props) {
-  // const [activeOrNot, setActiveOrNot] = useState('')
+  // const [activeOrNot, setActiveOrNot] = useState(false)
 
   // useEffect(() => {
   // }, [])

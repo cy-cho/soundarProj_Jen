@@ -28,9 +28,9 @@
       line-height: 3rem;
       outline: none; //input預設外框
     }
-    
+
     input::-webkit-search-cancel-button {
-    display: none;
+      display: none;
     }
 
     .icon {
@@ -40,7 +40,7 @@
       z-index: 2;
       font-size: 1.2rem;
     }
-    .icon-cancel{
+    .icon-cancel {
       position: absolute;
       top: calc(50% - 0.9rem);
       right: 1.2rem;
@@ -95,48 +95,48 @@
       font-size: 1.25rem;
       line-height: 1.8;
       font-weight: 500;
-      padding:0.5rem 1.2rem 0.5rem 1rem;
+      padding: 0.5rem 1.2rem 0.5rem 1rem;
     }
-    span:hover, {
+    span:hover {
       // color: #444c4e;
       background-color: #444c4e;
       border-radius: 38px;
       // border-bottom: 4px solid #444c4e;
     }
-    .active{
+    .active {
       background-color: #444c4e;
     }
   }
 
   //for tags btn
-  .news{
+  .news {
     background-color: #b9e3ff;
-    color:#232d2f;
+    color: #232d2f;
   }
-  .bussiness{
+  .bussiness {
     background-color: #fadb28;
-    color:#232d2f;
+    color: #232d2f;
   }
-  .technology{
+  .technology {
     background-color: #84e5bd;
-    color:#232d2f;
+    color: #232d2f;
   }
-  .education{
+  .education {
     background-color: #f780ae;
-    color:#232d2f;
+    color: #232d2f;
   }
   .story {
     background-color: #846def;
-    color:#232d2f;
+    color: #232d2f;
   }
-  .entainment{
+  .entainment {
     background-color: #f7aa99;
-    color:#232d2f;
+    color: #232d2f;
   }
   .all,
-  .sport{
+  .sport {
     background-color: #f8f8f8;
-    color:#232d2f;
+    color: #232d2f;
   }
 }
 
@@ -190,16 +190,17 @@
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       text-align: justify;
-      text-indent:2rem;
+      text-indent: 2rem;
     }
 
     .article-card-cates {
       font-size: 1.25rem;
       font-weight: 500;
-      a{
-        color: #F8F8F8;
+      a {
+        color: #f8f8f8;
       }
     }
+      
   }
 }
 
@@ -213,7 +214,7 @@
     background-color: #44494a;
     border: 1px solid #f8f8f8;
     border-radius: 0;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     a {
@@ -222,7 +223,7 @@
     }
   }
   li:hover,
-  li:active{
+  li:active {
     background-color: #2690df;
   }
   li:first-child {
