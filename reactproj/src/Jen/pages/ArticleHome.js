@@ -37,6 +37,7 @@ function ArticleHome(props) {
   },[page,category,tags,sort])
   return (
     <div className="article-body">
+      <ClickToTop />
       <ArticleCarousel />
       <div className="article-container mx-auto">
         <nav aria-label="breadcrumb" className="article-breadcrumb">
@@ -57,7 +58,10 @@ function ArticleHome(props) {
               className={
                 category === '' ? 'article-cate-btn active' : 'article-cate-btn'
               }
-              onClick={() => { setCategory(''); setPage(1) }}
+              onClick={() => {
+                setCategory('')
+                setPage(1)
+              }}
             >
               全部分類
             </button>
@@ -67,7 +71,10 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => { setCategory('官方公告'); setPage(1) }}
+              onClick={() => {
+                setCategory('官方公告')
+                setPage(1)
+              }}
             >
               官方公告
             </button>
@@ -77,7 +84,10 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => {setCategory('活動訊息'); setPage(1) }}
+              onClick={() => {
+                setCategory('活動訊息')
+                setPage(1)
+              }}
             >
               活動訊息
             </button>
@@ -87,7 +97,10 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => {setCategory('Podcast相關'); setPage(1) }}
+              onClick={() => {
+                setCategory('Podcast相關')
+                setPage(1)
+              }}
             >
               Podcast相關
             </button>
@@ -97,7 +110,10 @@ function ArticleHome(props) {
                   ? 'article-cate-btn active'
                   : 'article-cate-btn'
               }
-              onClick={() => {setCategory('每週頻道推薦'); setPage(1) }}
+              onClick={() => {
+                setCategory('每週頻道推薦')
+                setPage(1)
+              }}
             >
               每週頻道推薦
             </button>
@@ -113,7 +129,10 @@ function ArticleHome(props) {
                 tags === '' ? 'article-tags-btn all' : 'article-tags-btn'
               }
               onClick={() => {
-               { setTags(''); setPage(1) }
+                {
+                  setTags('')
+                  setPage(1)
+                }
               }}
             >
               全部
@@ -125,7 +144,10 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #b9e3ff' }}
               onClick={() => {
-                {setTags('新聞'); setPage(1) }
+                {
+                  setTags('新聞')
+                  setPage(1)
+                }
               }}
             >
               新聞
@@ -139,7 +161,10 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #fadb28' }}
               onClick={() => {
-                {setTags('商業'); setPage(1) }
+                {
+                  setTags('商業')
+                  setPage(1)
+                }
               }}
             >
               商業
@@ -153,7 +178,10 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #84e5bd' }}
               onClick={() => {
-                {setTags('科技'); setPage(1) }
+                {
+                  setTags('科技')
+                  setPage(1)
+                }
               }}
             >
               科技
@@ -167,7 +195,10 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #f780ae' }}
               onClick={() => {
-                {setTags('教育'); setPage(1) }
+                {
+                  setTags('教育')
+                  setPage(1)
+                }
               }}
             >
               教育
@@ -179,7 +210,10 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #846def' }}
               onClick={() => {
-                {setTags('故事'); setPage(1) }
+                {
+                  setTags('故事')
+                  setPage(1)
+                }
               }}
             >
               故事
@@ -193,7 +227,10 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #f7aa99' }}
               onClick={() => {
-                {setTags('娛樂'); setPage(1) }
+                {
+                  setTags('娛樂')
+                  setPage(1)
+                }
               }}
             >
               娛樂
@@ -205,7 +242,10 @@ function ArticleHome(props) {
               }
               style={{ border: 'solid 1px #f8f8f8' }}
               onClick={() => {
-                {setTags('運動'); setPage(1) }
+                {
+                  setTags('運動')
+                  setPage(1)
+                }
               }}
             >
               運動
@@ -214,18 +254,24 @@ function ArticleHome(props) {
           {/* sort btn series */}
           <div className="article-sort-btn">
             <span
-              className={sort===false? 'active':''}
+              className={sort === false ? 'active' : ''}
               onClick={() => {
-                {setSort(false); setPage(1) }
+                {
+                  setSort(false)
+                  setPage(1)
+                }
               }}
             >
               <MdAutorenew className="icon mr-1" />
               {''}最新專欄
             </span>
             <span
-              className={sort===true? 'active':''}
+              className={sort === true ? 'active' : ''}
               onClick={() => {
-                {setSort(true); setPage(1) }
+                {
+                  setSort(true)
+                  setPage(1)
+                }
               }}
             >
               <FaHotjar className="icon mr-1" />
@@ -235,82 +281,84 @@ function ArticleHome(props) {
         </div>
         <div className="">
           {/* 將每個row使用map至各個card中 */}
-          {(props.articleTotalRows.totalRows !== 0) ?
+          {props.articleTotalRows.totalRows !== 0 ? (
             props.articleRows.map((item) => {
-            return (
-              <div
-                key={item.sid}
-                className="article-card d-flex flex-row align-items-center"
-              >
-                <div className="article-card-date text-center align-items-center">
-                  <h4>
-                    {/* 該時間為字串,非dateTime需先變成dateTime格式才使用getDate() */}
-                    {new Date(item.article_created_at).getDate()}
-                    <br />
-                    {/* 先變換時間格式,再取得月份 */}
-                    {new Date(item.article_created_at)
-                      .toDateString()
-                      .slice(4, 8)}
-                  </h4>
-                </div>
-                <div className="article-card-img">
-                  <img
-                    // src="http://localhost:3000/img/article02.jpg"
-                    src={item.article_img_url}
-                    alt="..."
-                  />
-                </div>
-                <div className="article-card-body card-body">
-                  <h5 className="article-card-title">
-                    <FaCaretRight className="icon" />
-                    {item.article_title}
-                  </h5>
-                  <p className="article-card-content text-wrap">
-                    {item.article_content}
-                  </p>
-                  <div className="d-flex">
-                    <span
-                      className="article-card-cates"
-                      onClick={() => {
-                        setCategory(`${item.article_category}`)
-                      }}
-                    >
-                      {item.article_category}
-                    </span>
-                    {/* tags原為字串,需變成陣列才map至各個span中 */}
-                    {item.article_tags.split(',').map((tag, index) => {
-                      return (
-                        <span key={index}>
-                          <button
-                            type="button"
-                            className="article-tags-btn"
-                            onClick={() => {
-                              setTags(`${tag}`)
-                            }}
-                          >
-                            {tag}
-                          </button>
-                        </span>
-                      )
-                    })}
-                    <span className="article-card-cates text-right ml-auto">
-                      <Link to={'/ArticlePage/' + item.sid} setTags={setTags}>
-                        繼續閱讀
-                      </Link>
-                    </span>
+              return (
+                <div
+                  key={item.sid}
+                  className="article-card d-flex flex-row align-items-center"
+                >
+                  <div className="article-card-date text-center align-items-center">
+                    <h4>
+                      {/* 該時間為字串,非dateTime需先變成dateTime格式才使用getDate() */}
+                      {new Date(item.article_created_at).getDate()}
+                      <br />
+                      {/* 先變換時間格式,再取得月份 */}
+                      {new Date(item.article_created_at)
+                        .toDateString()
+                        .slice(4, 8)}
+                    </h4>
+                  </div>
+                  <div className="article-card-img">
+                    <img
+                      // src="http://localhost:3000/img/article02.jpg"
+                      src={item.article_img_url}
+                      alt="..."
+                    />
+                  </div>
+                  <div className="article-card-body card-body">
+                    <h5 className="article-card-title">
+                      <FaCaretRight className="icon" />
+                      {item.article_title}
+                    </h5>
+                    <p className="article-card-content text-wrap">
+                      {item.article_content}
+                    </p>
+                    <div className="d-flex">
+                      <span
+                        className="article-card-cates"
+                        onClick={() => {
+                          setCategory(`${item.article_category}`)
+                        }}
+                      >
+                        {item.article_category}
+                      </span>
+                      {/* tags原為字串,需變成陣列才map至各個span中 */}
+                      {item.article_tags.split(',').map((tag, index) => {
+                        return (
+                          <span key={index}>
+                            <button
+                              type="button"
+                              className="article-tags-btn"
+                              onClick={() => {
+                                setTags(`${tag}`)
+                              }}
+                            >
+                              {tag}
+                            </button>
+                          </span>
+                        )
+                      })}
+                      <span className="article-card-cates text-right ml-auto">
+                        <Link to={'/ArticlePage/' + item.sid} setTags={setTags}>
+                          繼續閱讀
+                        </Link>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-            }) :
+              )
+            })
+          ) : (
             <div className="article-card d-flex flex-row align-items-center justify-content-center">
               <div className="article-card-none">
                 <h5 className="pb-5">-查無相關專欄-</h5>
-                <p>分類：{ (category)? category:'未設定'}</p>
-                <p>標籤：{ (tags)? tags:'未設定'}</p>
-                <p>關鍵字：{ (search)? search:'未設定'}</p>
+                <p>分類：{category ? category : '未設定'}</p>
+                <p>標籤：{tags ? tags : '未設定'}</p>
+                <p>關鍵字：{search ? search : '未設定'}</p>
               </div>
-            </div>}
+            </div>
+          )}
         </div>
         <Pagination
           page={page}
@@ -319,7 +367,6 @@ function ArticleHome(props) {
           articleTotalRows={props.articleTotalRows}
         />
       </div>
-      <ClickToTop />
     </div>
   )
 }
